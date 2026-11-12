@@ -1,7 +1,7 @@
 [
   {
     "category": "ZAVIANTEE CHAT",
-    "prompt": "Name a Zaviantee viewer.",
+    "prompt": "Name a Zaviantee viewer from the channel leaderboard.",
     "answers": [
       "10 | tableloverr",
       "10 | falcon1012",
@@ -20,6 +20,7 @@
       "25 | simionmemes224",
       "25 | octalworm2",
       "25 | pevblez",
+      "25 | spydersammi",
       "25 | mccreamling",
       "25 | ese_guey_oscar",
       "25 | paytonmccombs",
@@ -44,7 +45,9 @@
       "25 | the_xaint777",
       "45 | christiancam_1",
       "45 | kmjsqb",
+      "45 | curby36",
       "45 | alkingtalkingtacowifibox",
+      "45 | spydersammialt",
       "45 | zz_chaz_zz02",
       "45 | aymplifly",
       "45 | isaacplayz5797",
@@ -97,7 +100,7 @@
       "70 | r2p_chromiq",
       "70 | faxeruggie",
       "70 | wardenthegoat_1",
-      "70 | frostbolt0037",
+      "70 | digblig",
       "70 | indo456",
       "70 | 00_tap",
       "70 | ultradan_",
@@ -109,9 +112,8 @@
       "70 | youcancallmechat",
       "70 | cass_lor7",
       "70 | camden_4005",
-      "70 | curby36",
       "70 | dwdjdudd2",
-      "100 | digblig"
+      "100 | frostbolt0037"
     ]
   },
   {
@@ -133,14 +135,12 @@
       "45 | Minecraft",
       "45 | Amanda the Adventurer",
       "45 | Among Us",
-      "45 | NBA 2K25",
-      "45 | Beast Games 2: Strong vs Smart",
+      "45 | NBA 2K26",
       "45 | Keep Talking and Nobody Explodes",
       "45 | Madden NFL 25",
-      "45 | Goodnight Universe",
+      "45 | $cam With Your Friends",
       "45 | The Walking Dead: Season Two",
       "45 | Rocket League",
-      "45 | ASTRO BOT",
       "45 | Geometry Dash",
       "70 | Variety",
       "70 | MECCHA CHAMELEON",
@@ -155,16 +155,16 @@
       "70 | Gamble With Your Friends",
       "70 | Quarantine Zone: The Last Check",
       "70 | The Choicer Voicer",
-      "70 | NBA 2K26",
+      "70 | NBA 2K25",
       "70 | Five Nights at Freddy's 4",
-      "70 | $cam With Your Friends",
+      "70 | Goodnight Universe",
       "70 | Fears to Fathom: Woodbury Getaway",
       "70 | VRChat",
       "70 | A Way Out",
       "70 | EA Sports FC 25",
       "70 | Five Nights at Freddy's: Sister Location",
       "70 | Subway Surfers",
-      "100 | Amanda the Adventurer 2"
+      "100 | ASTRO BOT"
     ]
   }
 ]
