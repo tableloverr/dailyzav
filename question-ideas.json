@@ -1,0 +1,256 @@
+{
+  "trivia": [
+    {
+      "category": "TWITCH · GAME ARCHIVE",
+      "prompt": "Name a game Zav streamed during [a date range with at least 30 distinct games].",
+      "evidence": "Use a broad Twitch archive range and verify 30–50 distinct game titles."
+    },
+    {
+      "category": "TWITCH · CATEGORIES",
+      "prompt": "Name a category in Zav's complete Twitch stream history.",
+      "evidence": "Deduplicate the complete category history; target 30–50 valid category names."
+    },
+    {
+      "category": "TWITCH · YEAR IN REVIEW",
+      "prompt": "Name a game Zav streamed in [year with at least 30 distinct games].",
+      "evidence": "Choose a year whose dated archive contains at least 30 distinct game titles."
+    },
+    {
+      "category": "TWITCH · LONG-RUN ARCHIVE",
+      "prompt": "Name a game from Zav's [multi-year] stream archive.",
+      "evidence": "Use the full multi-year archive and collect 30–50 distinct titles."
+    },
+    {
+      "category": "TWITCH · STREAM TITLES",
+      "prompt": "Name a word that appears in one of Zav's Twitch stream titles.",
+      "evidence": "Search the full VOD-title archive and collect 30–50 distinct words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLES",
+      "prompt": "Name a word of at least five letters from Zav's Twitch stream titles.",
+      "evidence": "Use the full VOD-title archive; verify at least 30 unique words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLES",
+      "prompt": "Name a phrase from a title in Zav's Twitch archive.",
+      "evidence": "Record exact phrases from dated VOD titles and build a 30–50 item board."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word from any Zaviantee YouTube Shorts title.",
+      "evidence": "Build from the complete Shorts title list; verify 30–50 unique words."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word of at least five letters from a Zaviantee Shorts title.",
+      "evidence": "Use the full Shorts catalog and count distinct words, not repeated appearances."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name an action word used in a Zaviantee Shorts title.",
+      "evidence": "Collect verbs from all Shorts titles; publish only if at least 30 distinct words qualify."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a noun used in a Zaviantee Shorts title.",
+      "evidence": "Collect exact title nouns from the full catalog and verify 30–50 answers."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word that appears in multiple Zaviantee Shorts titles.",
+      "evidence": "Compare the complete title list and verify at least 30 distinct repeated words."
+    },
+    {
+      "category": "SHORTS · GAME REFERENCES",
+      "prompt": "Name a game mentioned in a Zaviantee Shorts title.",
+      "evidence": "Search all Shorts titles and confirm at least 30 distinct game names."
+    },
+    {
+      "category": "COMMUNITY · PUBLIC LEADERBOARD",
+      "prompt": "Name a viewer listed on Zav's public viewer leaderboard.",
+      "evidence": "Use only the authorized public leaderboard; it should contain 30–50+ distinct handles."
+    },
+    {
+      "category": "COMMUNITY · PUBLIC LEADERBOARD",
+      "prompt": "Name a public leaderboard handle that appears in Zav's community records.",
+      "evidence": "Cross-check public records and use only handles appropriate to publish."
+    },
+    {
+      "category": "TWITCH · GAME ARCHIVE",
+      "prompt": "Name a game Zav streamed in [a broad season or date range].",
+      "evidence": "Choose a period with at least 30 distinct game titles in the archive."
+    },
+    {
+      "category": "TWITCH · GAME ARCHIVE",
+      "prompt": "Name a game category that appears in Zav's dated stream archive.",
+      "evidence": "Use category labels from the complete archive and deduplicate them."
+    },
+    {
+      "category": "TWITCH · VOD TITLES",
+      "prompt": "Name a topic word from a Zav VOD title in [year].",
+      "evidence": "Use all VOD titles from a year with at least 30 distinct valid topic words."
+    },
+    {
+      "category": "TWITCH · VOD TITLES",
+      "prompt": "Name a word that appears in VOD titles across [a multi-year range].",
+      "evidence": "Search a broad, dated VOD-title corpus and verify 30–50 unique answers."
+    },
+    {
+      "category": "TWITCH · STREAM ARCHIVE",
+      "prompt": "Name a game or stream category recorded in Zav's complete archive.",
+      "evidence": "Combine only clearly labeled game and category entries; keep 30–50 distinct answers."
+    },
+    {
+      "category": "SHORTS · FULL CATALOG",
+      "prompt": "Name a word from a Zaviantee Short published before [date].",
+      "evidence": "Select a date range with at least 30 distinct title words and cite the Shorts list."
+    },
+    {
+      "category": "SHORTS · FULL CATALOG",
+      "prompt": "Name a word from a Zaviantee Short published after [date].",
+      "evidence": "Use a sufficiently broad range to yield 30–50 distinct, verified words."
+    },
+    {
+      "category": "SHORTS · TITLE THEMES",
+      "prompt": "Name a topic represented in Zav's YouTube Shorts titles.",
+      "evidence": "Define topics from the full title catalog and document at least 30 accepted terms."
+    },
+    {
+      "category": "TWITCH · STREAM THEMES",
+      "prompt": "Name a game or activity represented in Zav's stream titles.",
+      "evidence": "Use the full VOD-title archive and verify 30–50 distinct game/activity answers."
+    },
+    {
+      "category": "ZAVIANTEE · CONTENT ARCHIVE",
+      "prompt": "Name a title word found in Zav's Twitch or YouTube archive.",
+      "evidence": "Keep the platform and source title for every answer; deduplicate to 30–50 entries."
+    }
+  ],
+  "estimate": [
+    {
+      "category": "Monthly airtime",
+      "prompt": "How many hours did Zav stream in [month and year]?",
+      "evidence": "Use a dated Twitch stats snapshot."
+    },
+    {
+      "category": "Live sessions",
+      "prompt": "How many times did Zav go live in [month and year]?",
+      "evidence": "Count distinct stream sessions in a dated archive."
+    },
+    {
+      "category": "Streaming days",
+      "prompt": "On how many days did Zav stream in [month and year]?",
+      "evidence": "Count unique calendar dates with a stream."
+    },
+    {
+      "category": "Average stream length",
+      "prompt": "What was the average length of Zav's streams in [month and year]?",
+      "evidence": "State the archive range and averaging method."
+    },
+    {
+      "category": "Longest stream",
+      "prompt": "How many hours long was Zav's longest stream in [month and year]?",
+      "evidence": "Verify start and end times in the stream archive."
+    },
+    {
+      "category": "Stream peak",
+      "prompt": "What was the peak viewer count for [specific stream]?",
+      "evidence": "Cite the stream stats page and identify the VOD."
+    },
+    {
+      "category": "Average audience",
+      "prompt": "What was Zav's average concurrent viewership in [month and year]?",
+      "evidence": "Use one consistent dated Twitch analytics source."
+    },
+    {
+      "category": "Monthly peak",
+      "prompt": "What was Zav's highest peak viewer count in [month and year]?",
+      "evidence": "Compare all streams in the month using the same analytics source."
+    },
+    {
+      "category": "Stream variety",
+      "prompt": "How many different game categories did Zav stream in [month and year]?",
+      "evidence": "Deduplicate category names in the dated stream archive."
+    },
+    {
+      "category": "Game airtime",
+      "prompt": "How many hours did Zav stream [specific game] in [month and year]?",
+      "evidence": "Sum the game's stream durations in a dated analytics source."
+    },
+    {
+      "category": "Game sessions",
+      "prompt": "How many streams of [specific game] did Zav do in [month and year]?",
+      "evidence": "Count distinct sessions, not VOD segments."
+    },
+    {
+      "category": "Time share",
+      "prompt": "What percentage of Zav's streaming hours in [month] went to [game or category]?",
+      "evidence": "Calculate from the same month's total and category-hour totals."
+    },
+    {
+      "category": "Twitch followers",
+      "prompt": "How many Twitch followers did Zav have on [date]?",
+      "evidence": "Record a dated channel or analytics snapshot."
+    },
+    {
+      "category": "YouTube subscribers",
+      "prompt": "How many YouTube subscribers did Zav have on [date]?",
+      "evidence": "Use the channel's displayed count and record the observation date."
+    },
+    {
+      "category": "YouTube uploads",
+      "prompt": "How many videos were on Zav's YouTube channel on [date]?",
+      "evidence": "Record the channel's displayed video count and snapshot date."
+    },
+    {
+      "category": "Shorts catalog",
+      "prompt": "How many Shorts had Zav posted by [date]?",
+      "evidence": "Count Shorts in the channel catalog as of a fixed date."
+    },
+    {
+      "category": "Short views",
+      "prompt": "How many views did [specific Short] have on [date]?",
+      "evidence": "Link the Short and record its view count on the snapshot date."
+    },
+    {
+      "category": "Short likes",
+      "prompt": "How many likes did [specific Short] have on [date]?",
+      "evidence": "Use the visible count and preserve the date because it changes."
+    },
+    {
+      "category": "Short comments",
+      "prompt": "How many comments did [specific Short] have on [date]?",
+      "evidence": "Record the visible count on a fixed date."
+    },
+    {
+      "category": "Top Short",
+      "prompt": "How many views did Zav's most-viewed Short have on [date]?",
+      "evidence": "Compare the channel's Shorts and capture a dated snapshot."
+    },
+    {
+      "category": "Recent Shorts",
+      "prompt": "What was the median view count of Zav's latest 10 Shorts on [date]?",
+      "evidence": "List the 10 view counts and calculate the median from that snapshot."
+    },
+    {
+      "category": "Recent Shorts",
+      "prompt": "What was the average view count of Zav's latest 10 Shorts on [date]?",
+      "evidence": "List all 10 counts and calculate the arithmetic mean."
+    },
+    {
+      "category": "Monthly uploads",
+      "prompt": "How many Shorts did Zav post in [month and year]?",
+      "evidence": "Use upload dates from the channel's Shorts list."
+    },
+    {
+      "category": "Upload cadence",
+      "prompt": "How many days passed between Zav's two latest uploads as of [date]?",
+      "evidence": "Compare the two latest publication dates."
+    },
+    {
+      "category": "Subscriber change",
+      "prompt": "How much did Zav's YouTube subscriber count change between [date] and [date]?",
+      "evidence": "Use snapshots from the same source and subtract the earlier count."
+    }
+  ]
+}
