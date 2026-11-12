@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap');
+:root{color-scheme:dark;background:#171521;color:#f5f1ff;font-family:"DM Sans",sans-serif}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:850px;padding:22px clamp(14px,4vw,38px)}
+header,.top,.actions,.comparison{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header a,footer{color:#d7cbea;font:700 12px "Space Mono",monospace}
+.game{margin:24px 0 16px;padding:clamp(22px,6vw,56px);min-height:490px;border-radius:30px;background:radial-gradient(ellipse at 100% 0,#57329a,transparent 57%),#282044;border:1px solid #846ab0;box-shadow:0 24px 70px #0006}
+.top{border-bottom:1px solid #a58ac15c;padding-bottom:18px;color:#e8d5ff}
+.top strong{font-size:21px}.top span,.kicker{font:700 12px "Space Mono",monospace;color:#e6bcff}
+h1{font-size:clamp(34px,6.5vw,66px);line-height:1.03;letter-spacing:-.06em;margin:26px 0 18px}
+p{line-height:1.55;color:#e1d7ef}
+label{display:block;font-weight:700;margin-bottom:8px}
+.input-row{display:flex;align-items:center;gap:12px;border:1px solid #a78ac5;border-radius:14px;background:#171227;padding:0 15px}
+.input-row span{font:700 13px "Space Mono",monospace;color:#dfc9ff}
+input{color:#fff;min-width:0;width:100%;padding:16px 0;border:0;background:transparent;font:700 24px "DM Sans",sans-serif}
+input:focus{outline:none}.input-row:focus-within{outline:2px solid #bdf56e}
+button{border:0;border-radius:100px;padding:14px 20px;background:#c8f783;color:#201632;font:700 15px "DM Sans",sans-serif;cursor:pointer}
+button:hover{background:#e2ffa9}button.secondary{background:transparent;color:#f5f1ff;border:1px solid #a58ac1}
+:focus-visible{outline:2px solid #f5d480;outline-offset:4px}
+.actions{justify-content:flex-start;margin-top:20px}
+.comparison{justify-content:flex-start;margin:16px 0}.comparison>div{flex:1 1 140px;padding:14px;background:#170f2b;border-radius:12px}
+.comparison small{display:block;color:#dbc6f0}.comparison strong{font-size:clamp(23px,5vw,36px)}
+.score{color:#c8f783}.error{color:#ffc1d3;min-height:1.6em}
+.recap{padding-left:22px}.recap li{padding:10px 0;border-bottom:1px solid #a58ac15c}
+.recap span{display:block;color:#d7cbea;font-size:14px}
+.hint{font-size:14px}
+.reveal{animation:reveal .28s ease-out both}@keyframes reveal{from{opacity:0;transform:translateY(8px)}}
+@media(prefers-reduced-motion:reduce){.reveal{animation:none}}
