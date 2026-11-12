@@ -192,15 +192,13 @@
     ]
   },
   {
-    "category": "TWITCH · VIEWER CHALLENGES",
-    "prompt": "Name a challenge Zaviantee has run on Twitch.",
-    "source": "https://www.twitchmetrics.net/c/1137933398-zaviantee/streams",
+    "category": "TWITCH · CHARACTERS",
+    "prompt": "Name a character mentioned in a Zaviantee Twitch clip title.",
+    "source": "https://streamscharts.com/channels/zaviantee/clips?stream_id=318863185789",
     "answers": [
-      "10 | Token hunting | Token hunt",
-      "25 | Roblox spelling bee | Spelling bee",
-      "45 | Costume contest",
-      "70 | Siege wagers | Wagers",
-      "100 | JShock merch bet | Merch bet | J Shock merch challenge"
+      "25 | Peter Griffin | Peter",
+      "45 | Mr. Krabs | Mr Krabs | Mr Crabs",
+      "100 | Kenny"
     ]
   },
   {
@@ -225,14 +223,14 @@
     ]
   },
   {
-    "category": "TWITCH · SNACK SQUAD",
-    "prompt": "Name a viewer on Zav’s Snack Squad.",
+    "category": "TWITCH · VIEWERS",
+    "prompt": "Name a fat Zaviantee viewer.",
     "answers": [
       "10 | tableloverr",
       "25 | falcon1012",
       "45 | payton",
-      "70 | treyshockwave",
-      "100 | bubble"
+      "100 | treyshockwave",
+      "70 | bubble"
     ]
   },
   {
