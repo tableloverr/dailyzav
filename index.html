@@ -1,21 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zaviantee Dive</title>
-  <meta name="description" content="Dive into the Zaviantee community challenge." />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <main class="shell">
-    <nav><span class="brand">ZAVIANTEE<span> / DIVE</span></span><a href="https://twitch.tv/zaviantee" target="_blank" rel="noreferrer">WATCH LIVE ↗</a></nav>
-    <section class="hero">
-      <div class="copy"><p class="eyebrow">THE COMMUNITY CHALLENGE</p><h1>How deep<br>can you <i>dive?</i></h1><p class="lede">Seven quick questions. One streamer's universe. Find the answer that only a real Zaviantee fan would know.</p><button id="start">START TODAY'S DIVE <b>→</b></button></div>
-      <div class="portrait"><div class="ring"></div><img src="zaviantee-300x300.png" alt="Zaviantee" /><span class="caption">LIVE FROM THE DEEP</span></div>
-    </section>
-    <section class="game" id="game" hidden><div class="game-top"><span id="progress">QUESTION 1 / 7</span><span id="timer">25</span></div><div class="meter"><span id="meterFill"></span></div><p class="eyebrow" id="category">THE STREAM</p><h2 id="prompt">What game does Zaviantee play most often?</h2><form id="answerForm"><input id="answer" autocomplete="off" placeholder="Type your answer…" /><button>SUBMIT <b>→</b></button></form><p class="hint">The deeper the cut, the deeper you go.</p></section>
-    <section class="result" id="result" hidden><p class="eyebrow">DIVE COMPLETE</p><h2 id="score">0m</h2><p id="resultText">You made it to the surface.</p><a class="button" href="https://twitch.tv/zaviantee" target="_blank" rel="noreferrer">VISIT THE STREAM ↗</a><button class="again" id="again">PLAY AGAIN</button></section>
-    <footer><span>MADE FOR THE ZAVIANTEE COMMUNITY</span><span>NO SIGN-UP REQUIRED</span></footer>
-  </main><script src="app.js"></script>
-</body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Daily Zav — After Hours</title><link rel="stylesheet" href="styles.css"></head>
+<body><header><a href="./" class="brand"><b>DZ</b> DAILY ZAV</a><a href="https://twitch.tv/zaviantee">WATCH ZAVIANTEE ↗</a></header>
+<main><aside><img src="zaviantee-300x300.png" alt="Zaviantee channel artwork"><div class="onair"><i></i> AFTER HOURS <span>CH 07</span></div><div class="signal"><div id="beam"></div></div><p id="signal">SIGNAL STANDBY</p></aside><article id="stage" aria-label="Daily Zav game"><p>CONNECTING TO THE STUDIO…</p></article></main>
+<footer><span>UNOFFICIAL ZAVIANTEE FAN GAME</span><a href="https://github.com/tableloverr/dailyzav/edit/main/questions.json">OWNER · EDIT QUESTIONS ↗</a></footer><script src="app.js" defer></script></body></html>
