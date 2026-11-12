@@ -46,3 +46,27 @@ aside img { display:block; width:34px; border-radius:3px; }
 #stage .review { width:100%; background:#1c152c; padding:12px 20px; text-align:left; }
 @media(max-width:550px) { header { letter-spacing:0; gap:8px; } #stage form { flex-wrap:nowrap; } #stage form input { min-width:0; } }
 @media(prefers-reduced-motion:reduce) { .road { animation:none!important; } }
+.answer-board { width:min(100%,620px); margin:14px 0; text-align:left; background:#171125f5; border:1px solid #98647b; border-radius:5px; overflow:hidden; }
+.answer-board summary { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; font-weight:700; }
+.answer-board summary span::before { content:"＋ "; color:var(--lime); }
+.answer-board[open] summary span::before { content:"− "; }
+.answer-board small,.board-count { color:var(--muted); }
+.board-content { padding:0 16px 16px; }
+.board-content h3 { margin-top:0; font-size:15px; }
+.board-controls { display:flex; gap:12px; flex-wrap:wrap; }
+.board-controls label { flex:1 1 180px; font-size:12px; }
+.board-controls input,.board-controls select { display:block; margin-top:5px; width:100%; padding:8px; font:inherit; }
+.answer-board ul { margin:0 0 14px; padding:0; list-style:none; }
+.answer-board li { display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid #50334b; font-size:13px; }
+.answer-board li span { overflow-wrap:anywhere; }
+.answer-board strong { white-space:nowrap; color:#e8c5c8; }
+.answer-board strong[data-tier="100"],.your-pick { color:#ffe18a!important; }
+.answer-board strong[data-tier="70"] { color:#ffa9cd; }
+.board-pages { display:flex; gap:8px; }
+.board-pages button:disabled { opacity:.45; cursor:default; }
+.score-track { display:flex; gap:16px; margin:18px 0; }
+.score-column { display:grid; gap:4px; justify-items:center; min-width:48px; }
+.score-rail { height:72px; width:14px; display:flex; align-items:flex-end; background:#241b32; border:1px solid var(--line); }
+.score-rail i { width:100%; height:var(--level); background:linear-gradient(#ffdb85,#e96a97); transform-origin:bottom; animation:score-rise .65s ease-out both; }
+.score-column small { color:var(--muted); }
+@keyframes score-rise { from { transform:scaleY(0); } }

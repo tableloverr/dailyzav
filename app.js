@@ -32,8 +32,8 @@ active=true;deadline=Date.now()+seconds*1000;let lastTick, suggestion;const upda
   stage.querySelector('#answer-status').textContent='';
 };
 stage.querySelector('#skip').onclick=()=>finish('','Skipped');tick=setInterval(update,50);update()}
-function finish(input,reason){if(!active)return;if(Date.now()>=deadline){input='';reason='Time’s up'}const q=round[log.length];const rows=q.answers.map(s=>s.split('|').map(x=>x.trim()));const hit=rows.find(r=>r.slice(1).some(a=>norm(a)===norm(input)));if(input&&!hit){const field=stage.querySelector('input');field.setAttribute('aria-invalid','true');stage.querySelector('#answer-status').textContent='Not on the board. Try another answer.';field.focus();field.select();playCue('reject');return}active=false;clearInterval(tick);const points=hit?Number(hit[0]):0;const name=hit?tiers[points]:reason||'Not on the board';playCue(points===100?'jackpot':points>=70?'rare':points?'hit':'timeout');log.push({input,points,name});save();signal();const rare=rows.reduce((best,row)=>+row[0]>+best[0]?row:best,rows[0]);paint('<div class="meta"><span>ROUND '+log.length+' / '+round.length+' · ANSWER REVEAL</span><span>'+score()+' PTS TOTAL</span></div><div class="reveal '+(points===100?'jackpot':points>=70?'rare':'')+'"><h2>'+esc(name)+'</h2><div class="points">+'+points+'</div><p>'+esc(hit?hit[1]:input||'No answer locked in')+'</p></div><p class="muted">Top pick: '+esc(rare[1])+' · '+rare[0]+' pts</p><button id="next">'+(log.length===round.length?'See results':'Next prompt')+' →</button>','#next');stage.querySelector('#next').onclick=()=>log.length===round.length?results():question()}
-function results(){paint('<div class="meta">'+(practice?'PRACTICE':'DAILY')+' · '+esc(date)+'</div><h2>That’s a wrap.</h2><div class="points">'+score()+' / '+round.length+'00</div><ol class="review">'+log.map((r,i)=>'<li><span><small>'+esc(round[i].prompt)+'</small>'+esc(r.input||'—')+' · '+esc(r.name)+'</span><b>+'+r.points+'</b></li>').join('')+'</ol><div class="actions"><button id="share">Copy score</button><button id="home" class="alt">Back to studio</button></div><p id="share-status" role="status"></p>','h2');stage.querySelector('#home').onclick=home;stage.querySelector('#share').onclick=async()=>{const s='Daily Zav · '+date+(practice?' (practice)':'')+' · '+score()+'/'+maxScore()+'\n'+log.map(r=>r.points===100?'🟨':r.points>=70?'🟩':r.points?'🟪':'⬛').join('')+'\n'+location.href;try{await navigator.clipboard.writeText(s);stage.querySelector('#share-status').textContent='Score copied.'}catch{stage.querySelector('#share-status').textContent=s}}}
+function finish(input,reason){if(!active)return;if(Date.now()>=deadline){input='';reason='Time’s up'}const q=round[log.length];const rows=q.answers.map(s=>s.split('|').map(x=>x.trim()));const hit=rows.find(r=>r.slice(1).some(a=>norm(a)===norm(input)));if(input&&!hit){const field=stage.querySelector('input');field.setAttribute('aria-invalid','true');stage.querySelector('#answer-status').textContent='Not on the board. Try another answer.';field.focus();field.select();playCue('reject');return}active=false;clearInterval(tick);const points=hit?Number(hit[0]):0;const name=hit?tiers[points]:reason||'Not on the board';playCue(points===100?'jackpot':points>=70?'rare':points?'hit':'timeout');log.push({input,points,name,canonical:hit?.[1]});save();signal();paint('<div class="meta"><span>ROUND '+log.length+' / '+round.length+' · ANSWER REVEAL</span><span>'+score()+' PTS TOTAL</span></div><div class="reveal '+(points===100?'jackpot':points>=70?'rare':'')+'"><h2>'+esc(name)+'</h2><div class="points">+'+points+'</div><p>'+esc(hit?hit[1]:input||'No answer locked in')+'</p></div><button id="next">'+(log.length===round.length?'See results':'Next prompt')+' →</button>','#next');stage.querySelector('#next').onclick=()=>log.length===round.length?results():question();mountAnswerBoard(stage,q,hit?.[1]);}
+function results(){paint('<div class="meta">'+(practice?'PRACTICE':'DAILY')+' · '+esc(date)+'</div><h2>That’s a wrap.</h2><div class="points">'+score()+' / '+round.length+'00</div>'+scoreTrack()+'<ol class="review">'+log.map((r,i)=>'<li><span><small>'+esc(round[i].prompt)+'</small>'+esc(r.input||'—')+' · '+esc(r.name)+'</span><b>+'+r.points+'</b></li>').join('')+'</ol><div class="actions"><button id="share">Copy score</button><button id="home" class="alt">Back to studio</button></div><p id="share-status" role="status"></p>','h2');round.forEach((question,i)=>mountAnswerBoard(stage,question,log[i].canonical||log[i].input,stage.querySelector('.actions')));stage.querySelector('#home').onclick=home;stage.querySelector('#share').onclick=async()=>{const s='Daily Zav · '+date+(practice?' (practice)':'')+' · '+score()+'/'+maxScore()+'\n'+log.map(r=>r.points===100?'🟨':r.points>=70?'🟩':r.points?'🟪':'⬛').join('')+'\n'+location.href;try{await navigator.clipboard.writeText(s);stage.querySelector('#share-status').textContent='Score copied.'}catch{stage.querySelector('#share-status').textContent=s}}}
 fetch('questions.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error();return r.json()}).then(data=>{if(!Array.isArray(data)||data.length<1||!data.every(q=>q?.category&&q?.prompt&&Array.isArray(q.answers)&&q.answers.length>0&&q.answers.every(a=>typeof a==='string'&&/^(10|25|45|70|100)\s*\|\s*\S/.test(a))))throw Error();bank=data;home()}).catch(()=>paint('<h2>Off air</h2><p>The question bank couldn’t load. Refresh to try again.</p>'));
 const soundButton=document.querySelector('#sound');
 let audioContext, muted=false;
@@ -117,4 +117,50 @@ function closestAnswer(guess,rows){
     else if(candidateScore===bestScore&&best!==canonical){tied=true}
   }
   return tied?null:best;
+}
+function scoreTrack(){
+  return '<div class="score-track" aria-label="Points per round">'+log.map((entry,index)=>
+    '<div class="score-column"><div class="score-rail"><i style="--level:'+entry.points+'%"></i></div><b>'+entry.points+'</b><small>R'+(index+1)+'</small></div>'
+  ).join('')+'</div>';
+}
+
+function mountAnswerBoard(parent, question, picked, before=null){
+  const rows=question.answers.map(line=>{
+    const [points,name,...aliases]=line.split('|').map(part=>part.trim());
+    return {points:Number(points),name,aliases};
+  }).sort((a,b)=>b.points-a.points||a.name.localeCompare(b.name));
+  const board=document.createElement('details');
+  board.className='answer-board';
+  board.innerHTML='<summary><span>Explore answers</span><small>'+rows.length+' accepted</small></summary>'+
+    '<div class="board-content"><h3>'+esc(question.prompt)+'</h3>'+
+    '<div class="board-controls"><label>Search answers<input type="search" placeholder="Search names or titles"></label>'+
+    '<label>Rarity<select><option value="">All tiers</option>'+
+    Object.keys(tiers).reverse().filter(points=>rows.some(row=>row.points===Number(points))).map(points=>
+      '<option value="'+points+'">'+esc(tiers[points])+' · '+points+' pts</option>'
+    ).join('')+'</select></label></div>'+
+    '<p class="board-count" role="status"></p><ul></ul>'+
+    '<div class="board-pages"><button type="button" class="alt">Previous</button><button type="button" class="alt">Next page</button></div></div>';
+  parent.insertBefore(board,before);
+  const search=board.querySelector('input'), filter=board.querySelector('select');
+  const [prev,next]=board.querySelectorAll('button');
+  const pageSize=12;
+  let page=0;
+  function render(){
+    const query=norm(search.value);
+    const matches=rows.filter(row=>(!filter.value||row.points===Number(filter.value))&&
+      (!query||[row.name,...row.aliases].some(value=>norm(value).includes(query))));
+    const offset=page*pageSize;
+    board.querySelector('ul').innerHTML=matches.slice(offset,offset+pageSize).map(row=>
+      '<li><span>'+esc(row.name)+(picked&&norm(picked)===norm(row.name)?' <small class="your-pick">Your answer</small>':'')+
+      '</span><strong data-tier="'+row.points+'">'+row.points+' pts</strong></li>'
+    ).join('');
+    board.querySelector('.board-count').textContent=matches.length?
+      (offset+1)+'–'+Math.min(offset+pageSize,matches.length)+' of '+matches.length+' answers':'No matching answers';
+    prev.disabled=page===0;
+    next.disabled=offset+pageSize>=matches.length;
+  }
+  search.oninput=filter.onchange=()=>{page=0;render()};
+  prev.onclick=()=>{page--;render()};
+  next.onclick=()=>{page++;render()};
+  board.addEventListener('toggle',()=>{if(board.open)render()});
 }
