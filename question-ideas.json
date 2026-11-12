@@ -124,6 +124,106 @@
       "category": "ZAVIANTEE · CONTENT ARCHIVE",
       "prompt": "Name a title word found in Zav's Twitch or YouTube archive.",
       "evidence": "Keep the platform and source title for every answer; deduplicate to 30–50 entries."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name a word from a Zav Twitch stream title from [year].",
+      "evidence": "Use the year's complete VOD-title list and verify at least 30 distinct words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name a word from a Zav Twitch stream title from [month and year].",
+      "evidence": "Use this prompt only if the month's titles contain at least 30 distinct valid words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name a word that appears in more than one Zav Twitch stream title.",
+      "evidence": "Compare the full VOD-title archive and collect 30–50 distinct repeated words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name a word from a Zav Twitch stream title in [date range].",
+      "evidence": "Choose a range whose complete title list supports at least 30 unique words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name a word from one of Zav's recent Twitch stream titles.",
+      "evidence": "Define a recent-title range broad enough to yield 30–50 distinct verified words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name a word from one of Zav's older Twitch stream titles.",
+      "evidence": "Choose a dated archive range with at least 30 distinct title words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name a word from a Zav Twitch stream title about [game or topic].",
+      "evidence": "Use only if the matching titles contain at least 30 distinct, source-verified words."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name the first word of a Zav Twitch stream title.",
+      "evidence": "Collect the exact first word from each VOD title and verify 30–50 unique answers."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name the last word of a Zav Twitch stream title.",
+      "evidence": "Collect the exact final word from each VOD title and verify at least 30 distinct answers."
+    },
+    {
+      "category": "TWITCH · STREAM TITLE WORDS",
+      "prompt": "Name a word that appears in both a Zav Twitch stream title and a Zaviantee YouTube Shorts title.",
+      "evidence": "Compare both complete title lists and use only if at least 30 shared words qualify."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word from a Zaviantee YouTube Shorts title from [year].",
+      "evidence": "Use the year's complete Shorts-title list and verify at least 30 distinct words."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word from a Zaviantee YouTube Shorts title from [month and year].",
+      "evidence": "Use this prompt only if that month's titles contain at least 30 distinct valid words."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word that appears in more than one Zaviantee YouTube Shorts title.",
+      "evidence": "Compare the complete Shorts-title list and collect 30–50 distinct repeated words."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word from a Zaviantee YouTube Shorts title in [date range].",
+      "evidence": "Choose a range whose titles support at least 30 unique, verified words."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word from one of Zaviantee's recent YouTube Shorts titles.",
+      "evidence": "Define a recent-title range broad enough to yield 30–50 distinct verified words."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word from one of Zaviantee's older YouTube Shorts titles.",
+      "evidence": "Choose a dated archive range with at least 30 distinct title words."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word from a Zaviantee YouTube Shorts title about [game or topic].",
+      "evidence": "Use only if the matching titles contain at least 30 distinct, source-verified words."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name the first word of a Zaviantee YouTube Shorts title.",
+      "evidence": "Collect the exact first word from each Shorts title and verify 30–50 unique answers."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name the last word of a Zaviantee YouTube Shorts title.",
+      "evidence": "Collect the exact final word from each Shorts title and verify at least 30 distinct answers."
+    },
+    {
+      "category": "SHORTS · TITLE WORDS",
+      "prompt": "Name a word from a Zaviantee YouTube Shorts title that mentions a game.",
+      "evidence": "Use only if the matching Shorts titles contain at least 30 distinct title words."
     }
   ],
   "estimate": [
