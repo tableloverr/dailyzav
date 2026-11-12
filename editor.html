@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Question Studio · Daily Zav</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="editor.css?v=ideas70">
-  <script src="editor.js?v=ideas70" defer></script>
+  <link rel="stylesheet" href="editor.css?v=weekly-planner-7x7">
+  <script src="editor.js?v=weekly-planner-7x7" defer></script>
 </head>
 <body class="studio-page">
   <header class="studio-header">
@@ -16,6 +16,28 @@
   <main class="studio">
     <h1>Question Studio</h1>
     <p class="studio-intro">Edit the published question bank or draft new rounds. Changes autosave in this browser; publish by copying the JSON into GitHub and committing it.</p>
+
+    <section class="week-planner" aria-labelledby="week-heading">
+      <div class="week-planner-heading">
+        <div>
+          <p class="week-kicker">EDITORIAL CALENDAR</p>
+          <h2 id="week-heading">Plan next week</h2>
+        </div>
+        <p id="week-range" class="week-range">Loading dates…</p>
+      </div>
+      <p class="week-help">For every day, choose seven trivia ideas and seven Zav Estimate ideas. Open a day below, fill its 14 slots, then move to the next day. Your choices save in this browser.</p>
+      <p class="week-note">This is a planning draft, not a live game update. Trivia ideas still need 30–50 verified answers; Estimate ideas need a checked number, units, date, and source.</p>
+      <p id="week-progress" class="week-progress" aria-live="polite">Trivia 0/49 · Estimate 0/49</p>
+      <div id="week-days" class="week-days">
+        <p class="idea-status">Load the question ideas to plan your week.</p>
+      </div>
+      <div class="week-actions">
+        <button id="copy-week" type="button" disabled>Copy week plan JSON</button>
+        <button id="download-week" type="button" class="alt" disabled>Download week plan</button>
+        <button id="clear-week" type="button" class="alt">Clear choices</button>
+      </div>
+      <p id="week-status" role="status" aria-live="polite"></p>
+    </section>
 
     <details class="idea-bank">
       <summary>Question ideas <span id="idea-count">Loading ideas…</span></summary>
