@@ -91,33 +91,63 @@ function answerForms(name){
     .map(word=>/^[0-9]+$/.test(word)?word:word[0]).join('');
   return { compact:norm(name), converted:converted.join(''), initials:words.length>=3?initials:'', words:converted };
 }
-function closestAnswer(guess,rows){
-  const typed=norm(guess);
+function closestAnswer(guess, rows){
+  const typed=norm(guess).replace(/_/g,'');
   if(typed.length<2)return null;
   const input=answerForms(guess);
-  const limit=typed.length>=9?2:1;
-  let best=null, bestScore=Infinity, tied=false;
+  let best=null, highest=0, runnerUp=0;
   for(const row of rows){
     const [,canonical,...aliases]=row.split('|').map(value=>value.trim());
-    let candidateScore=Infinity;
-    for(const name of [canonical,...aliases]){
-      const form=answerForms(name);
-      if(input.converted===form.converted||typed===form.initials){
-        candidateScore=Math.min(candidateScore,0);
-      }else if(typed.length>=4&&(form.compact.startsWith(typed)||form.converted.startsWith(input.converted))){
-        candidateScore=Math.min(candidateScore,1);
-      }else if(typed.length>=4&&(form.words.includes(input.converted)||(typed.length>=6&&form.compact.includes(typed)))){
-        candidateScore=Math.min(candidateScore,2);
-      }else if(typed.length>=4&&Math.abs(typed.length-form.compact.length)<=limit){
-        const edits=typoDistance(typed,form.compact);
-        if(edits<=limit)candidateScore=Math.min(candidateScore,2+edits);
-      }
-    }
-    if(candidateScore<bestScore){best=canonical;bestScore=candidateScore;tied=false}
-    else if(candidateScore===bestScore&&best!==canonical){tied=true}
+    const confidence=Math.max(...[canonical,...aliases].map(name=>matchConfidence(typed,input,name)));
+    if(confidence>highest){runnerUp=highest;highest=confidence;best=canonical}
+    else if(canonical!==best)runnerUp=Math.max(runnerUp,confidence);
   }
-  return tied?null:best;
+  return highest>=.72&&highest-runnerUp>=.045?best:null;
 }
+
+function matchConfidence(typed, input, name){
+  const form=answerForms(name);
+  const target=form.compact.replace(/_/g,'');
+  if(typed===target||input.converted===form.converted)return 1;
+  if(typed===form.initials)return .98;
+  if(typed.length<3)return 0;
+  const meaningful=words=>words.filter(word=>!['the','a','an','of','and','at','to','with'].includes(word));
+  const sourceWords=meaningful(input.words), targetWords=meaningful(form.words);
+  if(sourceWords.length>1&&sourceWords.every(word=>targetWords.includes(word)))return .93;
+  if(typed.length>=4&&(target.startsWith(typed)||form.converted.startsWith(input.converted)))return .96;
+  if(typed.length>=4&&(targetWords.includes(typed)||(typed.length>=6&&target.includes(typed))))return .91;
+
+  const size=Math.max(typed.length,target.length);
+  const distance=typoDistance(typed,target);
+  const allowed=typed.length<=4?1:typed.length<=8?2:typed.length<=13?3:4;
+  let score=distance<=allowed ? .99-distance/size*.86 : 0;
+
+  if(typed.length>=5&&typed.length<target.length){
+    // Compare an incomplete guess against prefixes, allowing typos within it.
+    for(let len=typed.length-1;len<=Math.min(target.length-1,typed.length+1);len++){
+      const edits=typoDistance(typed,target.slice(0,len));
+      if(edits<=Math.min(2,allowed))score=Math.max(score,.94-edits/Math.max(typed.length,len)*.9);
+    }
+  }
+
+  if(sourceWords.length>=2&&targetWords.length>=2){
+    const used=new Set();
+    let matched=0;
+    for(const word of sourceWords){
+      let bestIndex=-1, bestWord=0;
+      targetWords.forEach((other,index)=>{
+        if(used.has(index))return;
+        const ratio=word===other?1:Math.min(word.length,other.length)>=3?
+          1-typoDistance(word,other)/Math.max(word.length,other.length):0;
+        if(ratio>bestWord){bestWord=ratio;bestIndex=index}
+      });
+      if(bestWord>=.6){used.add(bestIndex);matched+=bestWord}
+    }
+    score=Math.max(score,.94*matched/sourceWords.length);
+  }
+  return score;
+}
+
 function scoreTrack(){
   return '<div class="score-track" aria-label="Points per round">'+log.map((entry,index)=>
     '<div class="score-column"><div class="score-rail"><i style="--level:'+entry.points+'%"></i></div><b>'+entry.points+'</b><small>R'+(index+1)+'</small></div>'
