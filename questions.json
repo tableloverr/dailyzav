@@ -1,10 +1,61 @@
 [
-  {"category":"STREAM SETUP","prompt":"Name a tool a streamer can use to broadcast to Twitch.","answers":["10 | OBS Studio | OBS","25 | Streamlabs Desktop | Streamlabs","45 | Restream","70 | XSplit Broadcaster | XSplit","100 | vMix","70 | Wirecast","70 | Prism Live Studio | Prism Live","70 | StreamYard"]},
-  {"category":"CONTROLLER CHECK","prompt":"Name a Nintendo home console.","answers":["10 | Nintendo Switch | Switch","25 | Wii","45 | Nintendo 64 | N64","45 | GameCube","70 | Wii U","70 | Super Nintendo | SNES","45 | Nintendo Entertainment System | NES","100 | Color TV-Game | Color TV Game","25 | Nintendo Switch 2 | Switch 2"]},
-  {"category":"THE CLIP DESK","prompt":"Name a file extension commonly used for video.","answers":["10 | MP4","25 | MOV","45 | AVI","45 | MKV","70 | WebM","70 | WMV","100 | M4V","70 | MPG | MPEG","70 | FLV","70 | 3GP","100 | TS | MPEG-TS"]},
-  {"category":"AFTER HOURS","prompt":"Name a playable character in the original Mario Kart for SNES.","answers":["10 | Mario","25 | Luigi","45 | Princess Peach | Peach | Princess Toadstool","45 | Yoshi","45 | Bowser","70 | Toad","70 | Koopa Troopa | Koopa","100 | Donkey Kong Jr. | DK Jr | Donkey Kong Junior"]},
-  {"category":"CHAT CHECK","prompt":"Name a Twitch global emote.","answers":["10 | Kappa","25 | PogChamp | Pog Champ","45 | LUL","45 | BibleThump","45 | Kreygasm","70 | DansGame","70 | FailFish","70 | ResidentSleeper","100 | FrankerZ","70 | 4Head","70 | NotLikeThis","70 | VoHiYo","100 | OpieOP","70 | WutFace","70 | CoolStoryBob"]},
-  {"category":"CREATIVE MODE","prompt":"Name one of the original Overwatch launch heroes.","answers":["10 | Tracer","10 | Mercy","25 | Genji","25 | Hanzo","45 | Reinhardt | Rein","45 | Winston","45 | D.Va | DVa","45 | Widowmaker","45 | Reaper","70 | Lucio | Lúcio","70 | Zenyatta | Zen","70 | Zarya","70 | Pharah","70 | Roadhog","70 | Soldier: 76 | Soldier 76","70 | Cassidy | McCree","70 | Mei","70 | Junkrat","70 | Bastion","100 | Symmetra","100 | Torbjörn | Torbjorn | Torb"]},
-  {"category":"FINAL SIGNAL","prompt":"Name one of the eight evolution forms of Eevee.","answers":["25 | Vaporeon","25 | Jolteon","25 | Flareon","45 | Umbreon","45 | Espeon","70 | Sylveon","70 | Leafeon","100 | Glaceon"]},
-  {"category":"WORLD SELECT","prompt":"Name a playable starter character in Super Smash Bros. for Nintendo 64.","answers":["10 | Mario","10 | Pikachu","25 | Donkey Kong | DK","25 | Link","45 | Yoshi","70 | Fox | Fox McCloud","70 | Kirby","100 | Samus | Samus Aran"]}
+  {
+    "category": "STREAM ARCHIVE",
+    "prompt": "Name a category from Zaviantee’s October Twitch streams.",
+    "answers": [
+      "10 | The Walking Dead | Walking Dead | TWD",
+      "25 | Rainbow Six Siege | R6 | Siege | Rainbow Six",
+      "45 | Just Chatting"
+    ]
+  },
+  {
+    "category": "CLIP ARCHIVE",
+    "prompt": "Name a character referenced in Zaviantee’s October 29 Just Chatting clip titles.",
+    "answers": [
+      "25 | Peter Griffin | Peter",
+      "100 | Mr. Krabs | Mr Crabs | Krabs | Crabs"
+    ]
+  },
+  {
+    "category": "THE WALKING DEAD",
+    "prompt": "Which returning character is named in Zaviantee’s Walking Dead clip title?",
+    "answers": [
+      "45 | Kenny"
+    ]
+  },
+  {
+    "category": "SIEGE BET",
+    "prompt": "Whose merch did the loser have to buy in Zaviantee’s Siege stream?",
+    "answers": [
+      "70 | JShock | J Shock"
+    ]
+  },
+  {
+    "category": "CHAT CHALLENGE",
+    "prompt": "What could viewers gift to end Zaviantee’s stream, according to his stream title?",
+    "answers": [
+      "25 | A sub | Sub | Gift sub | Gifted sub | Subscription | A subscription"
+    ]
+  },
+  {
+    "category": "COMMUNITY",
+    "prompt": "Where did Zaviantee’s stream title tell viewers to join for giveaways?",
+    "answers": [
+      "10 | Discord | His Discord | Discord server"
+    ]
+  },
+  {
+    "category": "STORY STREAM",
+    "prompt": "Which season was Zaviantee playing for the first time in the Walking Dead stream title asking for help?",
+    "answers": [
+      "45 | Season 2 | Season two | S2 | SZN 2 | 2 | Two"
+    ]
+  },
+  {
+    "category": "FAN MAIL",
+    "prompt": "In what Twitch category did Zaviantee’s fan mail clip appear?",
+    "answers": [
+      "25 | Just Chatting"
+    ]
+  }
 ]
