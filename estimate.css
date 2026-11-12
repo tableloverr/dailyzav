@@ -26,21 +26,21 @@ button:hover{background:#e2ffa9}button.secondary{background:transparent;color:#f
 .hint{font-size:14px}
 .reveal{animation:reveal .28s ease-out both}@keyframes reveal{from{opacity:0;transform:translateY(8px)}}
 @media(prefers-reduced-motion:reduce){.reveal{animation:none}}
-:root{color-scheme:dark;background:#dededb;color:#fff;font-family:"DM Sans",Arial,sans-serif}
+:root{color-scheme:light;background:#dededb;color:#fff;font-family:"DM Sans",Arial,sans-serif}
 body{max-width:724px;padding:0 clamp(0px,2.8vw,20px) 16px}
 header{padding:12px 6px}
 header a,footer{color:#174632}
-.game{margin:0 0 14px;min-height:570px;padding:24px clamp(20px,6.15vw,42px) 44px;border:0;border-radius:25px;background:#087749;box-shadow:none}
+.game{margin:0 0 14px;min-height:570px;padding:24px clamp(20px,6.15vw,42px) 44px;border:0;border-radius:25px;background:#14bf73;box-shadow:none}
 .top{padding:0;border:0;color:#fff;display:grid;grid-template-columns:1fr auto 1fr}
 .top strong,.top span{font:800 16px "DM Sans",Arial,sans-serif;color:#fff}
-.top span:last-child{text-align:right;color:#fff}
+.top span:last-child{text-align:right;color:#d4ffe8}
 h1{font-size:clamp(32px,7.3vw,50px);line-height:1.05;letter-spacing:-.045em;margin:20px 0 18px}
 p,.hint,.kicker{color:#fff}
 .kicker{margin:18px 0 -10px;font-size:11px;text-transform:uppercase;letter-spacing:.1em}
-.input-row{height:88px;border:1px solid #eafff4a1;border-radius:22px;background:#075d39;padding:0 24px}
+.input-row{height:88px;border:0;border-radius:22px;background:#ffffff29;padding:0 24px}
 .input-row span{font:800 14px "DM Sans",sans-serif;color:#fff;text-transform:uppercase}
 .input-row input{font-size:clamp(24px,5vw,32px);padding:12px 0;color:#fff}
-.input-row input::placeholder{color:#e0fff0}
+.input-row input::placeholder{color:#e0fff0b5}
 .input-row:focus-within,:focus-visible{outline-color:#e3fff0}
 button,button.secondary{background:transparent;color:#fff;border:2px solid #eafff4a1}
 button:hover,button.secondary:hover{background:#ffffff2c;color:#fff}
@@ -48,8 +48,8 @@ button:hover,button.secondary:hover{background:#ffffff2c;color:#fff}
 .prompt-actions button:last-child{font:800 13px "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding-inline:24px}
 #calculator{height:48px;width:48px;padding:0;font-size:24px}
 .error{color:#fff;font-size:14px;margin:8px 0}
-.comparison>div{background:#075d39}.comparison small,.recap span{color:#e0fff0}.score{color:#fff}
-#calculator-panel{margin-top:20px;padding:16px;border:1px solid #eafff4a1;border-radius:16px;background:#075d39}
+.comparison>div{background:#07623c55}.comparison small,.recap span{color:#e0fff0}.score{color:#fff}
+#calculator-panel{margin-top:20px;padding:16px;border:1px solid #eafff4a1;border-radius:16px;background:#066941}
 #calculator-panel input{padding:8px 12px;border-radius:8px;background:#084c33;color:white;font-size:20px}
 .calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
 .calc-grid button{padding:8px 2px;border-radius:8px}
@@ -59,7 +59,31 @@ button:hover,button.secondary:hover{background:#ffffff2c;color:#fff}
 @media(max-width:420px){.top strong,.top span{font-size:13px}.game{border-radius:20px}.input-row{height:72px;padding-inline:13px}}
 .accuracy{height:10px;margin:22px 0 16px;border-radius:999px;background:#07583755;overflow:hidden}
 .accuracy i{display:block;width:var(--accuracy);height:100%;border-radius:inherit;background:#efffd2;transform-origin:left;animation:accuracy-fill .55s ease-out both}
-.answer-source{font-size:13px;color:#effff5}.answer-source summary{cursor:pointer}.answer-source a{color:#fff;font-weight:700;text-decoration-thickness:2px;text-underline-offset:3px}
+.answer-source{font-size:13px;color:#effff5}.answer-source summary{cursor:pointer}
 .answer-source p{margin:8px 0 0}
 @keyframes accuracy-fill{from{transform:scaleX(0)}}
 @media(prefers-reduced-motion:reduce){.accuracy i{animation:none}}
+#estimate-sound{color:#174632;border:1px solid #51836c;padding:7px 12px;font-size:12px}
+#estimate-sound:hover{background:#c6ebd8}
+.game{background:radial-gradient(ellipse at 100% 0,#3cd38c70,transparent 55%),linear-gradient(145deg,#10b96d,#0a895a);box-shadow:0 18px 44px #183f3529}
+#rounds{display:flex;gap:6px;margin:17px 0 12px}
+#rounds span{height:5px;flex:1;border-radius:12px;background:#00543c42}
+#rounds .done{background:#b9f5c7}
+#rounds .current{background:#fff3a6;box-shadow:0 0 12px #fff3a6a8}
+.prompt-actions button:last-child,#play,#next{background:#e9ffbc;color:#164a2f;border-color:#e9ffbc;box-shadow:0 4px 0 #056343}
+.prompt-actions button:last-child:hover,#play:hover,#next:hover{background:#f5ffd9}
+.prompt-actions button:last-child:active,#play:active,#next:active{transform:translateY(2px);box-shadow:0 2px 0 #056343}
+.comparison>div{border:1px solid #a6f4cb70;border-radius:16px}
+.comparison>div:last-child{background:#e4ffd8;color:#12472e}
+.comparison>div:last-child small{color:#245c42}
+#calculator-panel{max-width:390px;padding:18px;border:1px solid #c8ffe180;border-radius:22px;background:#064e36;box-shadow:0 14px 35px #03463061}
+.calc-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.calc-heading label{margin:0}
+#close-calc{border:0;padding:0;width:36px;height:36px;font-size:24px}
+#calculator-panel input{background:#073a2a;border:1px solid #85c8a8;min-height:44px}
+#calc-preview{display:block;min-height:39px;text-align:right;padding:7px 4px;font:700 20px "Space Mono",monospace;color:#e8ffb6;overflow-wrap:anywhere}
+.calc-grid button{min-height:42px;border:0;background:#17684c}
+.calc-grid button:hover{background:#287c5f}
+.calc-grid button[data-key="="],#use-result{background:#e9ffbc;color:#164a2f;border:0}
+#use-result{width:100%}
+#use-result:disabled{opacity:.45;cursor:default}

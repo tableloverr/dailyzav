@@ -1,9 +1,9 @@
 const questions = [
-  { category:'Siege airtime', unit:'hours', answer:281, prompt:'How many hours did Zav stream Rainbow Six Siege?', source:'Zaviantee’s November 2026 Twitch stats.', sourceUrl:'https://www.twitchmetrics.net/c/1137933398-zaviantee/streams' },
-  { category:'Twitch peak', unit:'viewers', answer:141, prompt:'What’s the most people watching Zav at once in Just Chatting?', source:'Zaviantee’s November 2026 Twitch stats.', sourceUrl:'https://www.twitchmetrics.net/c/1137933398-zaviantee/streams' },
-  { category:'YouTube subscribers', unit:'subscribers', answer:330, prompt:'How many YouTube subscribers did Zav have on November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026.', sourceUrl:'https://www.youtube.com/@zavianteee' },
-  { category:'YouTube uploads', unit:'videos', answer:212, prompt:'How many videos had Zav uploaded by November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026. This is the channel’s displayed video count.', sourceUrl:'https://www.youtube.com/@zavianteee' },
-  { category:'Twitch variety', unit:'categories', answer:47, prompt:'How many different categories has Zav streamed?', source:'The supplied list contains 49 rows. Until Dawn and Among Us appear twice.', sourceUrl:'https://www.twitchmetrics.net/c/1137933398-zaviantee/streams' },
+  { category:'Siege airtime', unit:'hours', answer:281, prompt:'How many hours did Zav stream Rainbow Six Siege?', source:'Zaviantee’s November 2026 Twitch stats.' },
+  { category:'Twitch peak', unit:'viewers', answer:141, prompt:'What’s the most people watching Zav at once in Just Chatting?', source:'Zaviantee’s November 2026 Twitch stats.' },
+  { category:'YouTube subscribers', unit:'subscribers', answer:330, prompt:'How many YouTube subscribers did Zav have on November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026.' },
+  { category:'YouTube uploads', unit:'videos', answer:212, prompt:'How many videos had Zav uploaded by November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026. This is the channel’s displayed video count.' },
+  { category:'Twitch variety', unit:'categories', answer:47, prompt:'How many different categories has Zav streamed?', source:'The supplied list contains 49 rows. Until Dawn and Among Us appear twice.' },
   { category:'Viewer leaderboard', unit:'accounts', answer:1299, prompt:'How many names were on Zav’s viewer leaderboard?', source:'The supplied leaderboard has 1,300 positions with one blank handle. Bot accounts count here.' },
   { category:'Channel age', unit:'days', answer:800, prompt:'How many days passed between Zav creating his Twitch account and November 12, 2026?', source:'TwitchTracker gives September 3, 2024 as the account creation date. The calendar difference is 800 days.' }
 ];
@@ -34,6 +34,12 @@ function factor(guess, answer){return Math.max(guess / answer, answer / guess)}
 function scoreLabel(value){return (value === 1 ? '1.00' : value < 1.01 ? '<1.01' : format.format(value)) + '×'}
 function show(html){
   screen.innerHTML = html;
+  document.querySelector('#rounds').replaceChildren(...daily.map((_, index) => {
+    const dot = document.createElement('span');
+    if (index < guesses.length) dot.className = 'done';
+    else if (index === guesses.length) dot.className = 'current';
+    return dot;
+  }));
   const heading = screen.querySelector('h1');
   heading.tabIndex = -1;
   heading.focus();
@@ -44,7 +50,10 @@ function home(){
   show('<h1>How close can you get?</h1><p>Estimate seven numbers from Zaviantee’s Twitch, YouTube, and community history. You get one guess per round. A perfect guess scores 1.00×. Lower is better.</p>'+
     '<p class="hint">Seven guesses. See how far off you were after each one.</p>'+
     '<div class="actions"><button id="play">'+action+' →</button></div>');
-  screen.querySelector('#play').onclick = () => guesses.length === size ? results() : prompt();
+  screen.querySelector('#play').onclick = () => {
+    playSound('tap');
+    guesses.length === size ? results() : prompt();
+  };
 }
 function prompt(){
   const index = guesses.length;
@@ -65,6 +74,8 @@ function prompt(){
       screen.querySelector('#error').textContent = 'Enter a number greater than zero, such as 35 or 12.5.';
       return;
     }
+    const closeness = factor(value, question.answer);
+    playSound(closeness === 1 ? 'perfect' : closeness <= 1.25 ? 'close' : 'reveal');
     guesses.push(value);
     save();
     reveal(index);
@@ -81,15 +92,10 @@ function reveal(index){
     '<div class="accuracy" aria-hidden="true"><i style="--accuracy:'+Math.max(4,100/difference)+'%"></i></div>'+
     '<details class="answer-source"><summary>Where this number comes from</summary><p>'+question.source+'</p></details>'+
     '<div class="actions"><button id="next">'+(guesses.length === size ? 'See results' : 'Next question')+' →</button></div></div>');
-  if(question.sourceUrl?.startsWith('https://')){
-    const link=document.createElement('a');
-    link.href=question.sourceUrl;
-    link.target='_blank';
-    link.rel='noopener noreferrer';
-    link.textContent=' View source ↗';
-    screen.querySelector('.answer-source p').append(link);
-  }
-  screen.querySelector('#next').onclick = () => guesses.length === size ? results() : prompt();
+  screen.querySelector('#next').onclick = () => {
+    playSound('tap');
+    guesses.length === size ? results() : prompt();
+  };
 }
 function results(){
   progress.textContent = 'Daily results';
@@ -106,7 +112,6 @@ function results(){
     catch { screen.querySelector('#copy-status').textContent = message; }
   };
 }
-home();
 function calculate(expression){
   const compact=expression.replace(/\s/g,'').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
   const tokens=compact.match(/(?:\d+(?:\.\d*)?|\.\d+)|[()+*/-]/g)||[];
@@ -145,34 +150,103 @@ function calculate(expression){
 function mountCalculator(guess){
   const panel=screen.querySelector('#calculator-panel');
   const toggle=screen.querySelector('#calculator');
-  const keys=['7','8','9','÷','4','5','6','×','1','2','3','−','0','.','=','+','(',')','⌫','Clear'];
-  panel.innerHTML='<label for="expression">Calculator</label><input id="expression" autocomplete="off" maxlength="100" placeholder="e.g. 24 × 12">'+
+  const keys=['Clear','(',')','÷','7','8','9','×','4','5','6','−','1','2','3','+','0','.','⌫','='];
+  panel.innerHTML='<div class="calc-heading"><label for="expression">Calculator</label><button type="button" id="close-calc" aria-label="Close calculator">×</button></div>'+
+    '<input id="expression" autocomplete="off" maxlength="100" placeholder="e.g. 24 × 12">'+
+    '<output id="calc-preview" for="expression">—</output>'+
     '<div class="calc-grid">'+keys.map(key=>'<button type="button" data-key="'+key+'">'+key+'</button>').join('')+'</div>'+
-    '<p role="status" id="calc-error"></p><button type="button" id="use-result">Use as guess</button>';
+    '<p role="status" id="calc-error"></p><button type="button" id="use-result" disabled>Use as guess ↗</button>';
   const expression=panel.querySelector('#expression');
   const message=panel.querySelector('#calc-error');
-  toggle.onclick=()=>{
-    panel.hidden=!panel.hidden;
-    toggle.setAttribute('aria-expanded',String(!panel.hidden));
-    if(!panel.hidden)expression.focus();
-  };
-  function evaluate(use=false){
-    try {
-      const value=calculate(expression.value);
-      const formatted=new Intl.NumberFormat('en-US',{useGrouping:false,maximumSignificantDigits:12}).format(value);
-      expression.value=formatted;
-      message.textContent='';
-      if(use){guess.value=formatted;toggle.click();guess.focus()}
-    } catch {message.textContent='Check the expression and try again.'}
+  const preview=panel.querySelector('#calc-preview');
+  const use=panel.querySelector('#use-result');
+  const display=new Intl.NumberFormat('en-US',{useGrouping:false,maximumSignificantDigits:12});
+  let result=null;
+  function refresh(){
+    message.textContent='';
+    try { result=calculate(expression.value); } catch { result=null; }
+    preview.textContent=result===null?'—':display.format(result);
+    use.disabled=result===null||result<=0||display.format(result).length>guess.maxLength;
+  }
+  function open(isOpen){
+    panel.hidden=!isOpen;
+    toggle.setAttribute('aria-expanded',String(isOpen));
+    (isOpen?expression:toggle).focus();
+  }
+  toggle.onclick=()=>{playSound('tap');open(panel.hidden)};
+  panel.querySelector('#close-calc').onclick=()=>open(false);
+  panel.onkeydown=event=>{if(event.key==='Escape'){event.preventDefault();open(false)}};
+  expression.oninput=refresh;
+  function evaluate(){
+    refresh();
+    if(result===null){message.textContent='Check your expression.';return}
+    expression.value=display.format(result);
+    refresh();
+    playSound('tap');
   }
   panel.querySelector('.calc-grid').onclick=event=>{
     const key=event.target.closest('button')?.dataset.key;
     if(!key)return;
-    if(key==='=')evaluate();
-    else if(key==='Clear')expression.value='';
-    else if(key==='⌫')expression.value=expression.value.slice(0,-1);
-    else expression.value=(expression.value+key).slice(0,100);
+    if(key==='='){evaluate();return}
+    const start=expression.selectionStart;
+    const end=expression.selectionEnd;
+    if(key==='Clear')expression.value='';
+    else if(key==='⌫')expression.setRangeText('',start===end?Math.max(0,start-1):start,end,'end');
+    else if(expression.value.length-(end-start)<100)expression.setRangeText(key,start,end,'end');
+    expression.focus();
+    refresh();
+    playSound('key');
   };
   expression.onkeydown=event=>{if(event.key==='Enter'){event.preventDefault();evaluate()}};
-  panel.querySelector('#use-result').onclick=()=>evaluate(true);
+  use.onclick=()=>{
+    if(use.disabled)return;
+    guess.value=display.format(result);
+    open(false);
+    guess.focus();
+    playSound('tap');
+  };
 }
+
+let soundContext;
+let muted=false;
+function setupSound(){
+  const button=document.querySelector('#estimate-sound');
+  try { muted=localStorage.getItem('zav-estimate-muted')==='true'; } catch {}
+  function render(){
+    button.textContent=muted?'Sound off':'Sound on';
+    button.setAttribute('aria-pressed',String(!muted));
+  }
+  button.onclick=()=>{
+    muted=!muted;
+    try {localStorage.setItem('zav-estimate-muted',String(muted))} catch {}
+    render();
+    if(!muted)playSound('close');
+  };
+  render();
+}
+function playSound(cue){
+  if(muted)return;
+  const Audio=window.AudioContext||window.webkitAudioContext;
+  if(!Audio)return;
+  try {
+    soundContext ||= new Audio();
+    if(soundContext.state==='suspended')soundContext.resume().catch(()=>{});
+    const notes={key:[330],tap:[392,523],reveal:[392,294],close:[392,523,659],perfect:[523,659,784,1047]}[cue];
+    notes.forEach((frequency,index)=>{
+      const start=soundContext.currentTime+index*.075;
+      const tone=soundContext.createOscillator();
+      const volume=soundContext.createGain();
+      tone.type='sine';
+      tone.frequency.value=frequency;
+      volume.gain.setValueAtTime(.001,start);
+      volume.gain.exponentialRampToValueAtTime(cue==='key'?.018:.09,start+.015);
+      volume.gain.exponentialRampToValueAtTime(.001,start+.16);
+      tone.connect(volume).connect(soundContext.destination);
+      tone.start(start);
+      tone.stop(start+.17);
+    });
+  } catch {}
+}
+
+setupSound();
+home();
