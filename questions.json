@@ -204,35 +204,35 @@
     ]
   },
   {
-    "category": "TWITCH · SPORTS",
-    "prompt": "Name a sports game Zaviantee has streamed.",
+    "category": "TWITCH · MOD TEAM",
+    "prompt": "Name a current or former Zaviantee moderator.",
     "answers": [
-      "10 | Rocket League",
-      "25 | EA Sports FC 26 | FC 26",
-      "45 | NBA 2K26 | 2K26",
-      "45 | NBA 2K25 | 2K25",
-      "70 | Madden NFL 25 | Madden 25",
-      "100 | EA Sports FC 25 | FC 25"
+      "10 | falcon1012",
+      "10 | tableloverr",
+      "25 | silver_saturn",
+      "70 | bdoh99",
+      "25 | karma_sigma777",
+      "45 | philosophical",
+      "45 | octalworm",
+      "45 | wuhzpoppin",
+      "45 | spydersammi",
+      "25 | mindfuleric",
+      "100 | bearydudeytfnpix",
+      "45 | catsareawsome",
+      "25 | zavisindian",
+      "10 | zavmods",
+      "70 | drunkxyoda"
     ]
   },
   {
-    "category": "TWITCH · MULTIPLAYER",
-    "prompt": "Name a multiplayer game Zav has streamed.",
+    "category": "TWITCH · SNACK SQUAD",
+    "prompt": "Name a viewer on Zav’s Snack Squad.",
     "answers": [
-      "10 | Fortnite",
-      "10 | Rainbow Six Siege | Siege | R6",
-      "25 | Roblox",
-      "25 | Minecraft",
-      "25 | Among Us",
-      "45 | Rocket League",
-      "45 | Fall Guys",
-      "45 | Clash Royale",
-      "70 | Marvel Rivals",
-      "70 | VRChat",
-      "70 | Gamble With Your Friends",
-      "70 | $cam With Your Friends | Scam With Your Friends",
-      "70 | Keep Talking and Nobody Explodes | Keep Talking",
-      "100 | A Way Out"
+      "10 | tableloverr",
+      "25 | falcon1012",
+      "45 | payton",
+      "70 | treyshockwave",
+      "100 | bubble"
     ]
   },
   {
