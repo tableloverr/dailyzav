@@ -57,3 +57,9 @@ button:hover,button.secondary:hover{background:#ffffff2c;color:#fff}
 #use-result{margin-top:12px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media(max-width:420px){.top strong,.top span{font-size:13px}.game{border-radius:20px}.input-row{height:72px;padding-inline:13px}}
+.accuracy{height:10px;margin:22px 0 16px;border-radius:999px;background:#07583755;overflow:hidden}
+.accuracy i{display:block;width:var(--accuracy);height:100%;border-radius:inherit;background:#efffd2;transform-origin:left;animation:accuracy-fill .55s ease-out both}
+.answer-source{font-size:13px;color:#effff5}.answer-source summary{cursor:pointer}
+.answer-source p{margin:8px 0 0}
+@keyframes accuracy-fill{from{transform:scaleX(0)}}
+@media(prefers-reduced-motion:reduce){.accuracy i{animation:none}}

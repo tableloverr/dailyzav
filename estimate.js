@@ -1,10 +1,10 @@
 const questions = [
-  { category:'Siege airtime', unit:'hours', answer:281, prompt:'How many hours did Zav stream Rainbow Six Siege?', source:'The supplied November 2026 Twitch category snapshot.' },
-  { category:'Twitch peak', unit:'viewers', answer:141, prompt:'What was Zav’s peak concurrent viewership in Just Chatting?', source:'The peak-viewer column of the supplied Twitch category snapshot.' },
-  { category:'YouTube subscribers', unit:'subscribers', answer:330, prompt:'How many subscribers did Zav’s YouTube channel show in the November snapshot?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026.' },
-  { category:'YouTube uploads', unit:'videos', answer:212, prompt:'How many videos did Zav’s YouTube channel list in the November snapshot?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026. This is the channel’s displayed video count.' },
-  { category:'Twitch variety', unit:'categories', answer:47, prompt:'How many distinct categories were in Zav’s November Twitch stats list?', source:'The supplied list contains 49 rows. Until Dawn and Among Us appear twice.' },
-  { category:'Viewer leaderboard', unit:'accounts', answer:1299, prompt:'How many named accounts were on Zav’s original viewer leaderboard?', source:'The supplied leaderboard has 1,300 positions with one blank handle. Bot accounts count here.' },
+  { category:'Siege airtime', unit:'hours', answer:281, prompt:'How many hours did Zav stream Rainbow Six Siege?', source:'Zaviantee’s November 2026 Twitch stats.' },
+  { category:'Twitch peak', unit:'viewers', answer:141, prompt:'What’s the most people watching Zav at once in Just Chatting?', source:'Zaviantee’s November 2026 Twitch stats.' },
+  { category:'YouTube subscribers', unit:'subscribers', answer:330, prompt:'How many YouTube subscribers did Zav have on November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026.' },
+  { category:'YouTube uploads', unit:'videos', answer:212, prompt:'How many videos had Zav uploaded by November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026. This is the channel’s displayed video count.' },
+  { category:'Twitch variety', unit:'categories', answer:47, prompt:'How many different categories has Zav streamed?', source:'The supplied list contains 49 rows. Until Dawn and Among Us appear twice.' },
+  { category:'Viewer leaderboard', unit:'accounts', answer:1299, prompt:'How many names were on Zav’s viewer leaderboard?', source:'The supplied leaderboard has 1,300 positions with one blank handle. Bot accounts count here.' },
   { category:'Channel age', unit:'days', answer:800, prompt:'How many days passed between Zav creating his Twitch account and November 12, 2026?', source:'TwitchTracker gives September 3, 2024 as the account creation date. The calendar difference is 800 days.' }
 ];
 const size = 7;
@@ -42,7 +42,7 @@ function home(){
   progress.textContent = day;
   const action = guesses.length === size ? 'View today’s score' : guesses.length ? 'Resume today’s game' : 'Play today';
   show('<h1>How close can you get?</h1><p>Estimate seven numbers from Zaviantee’s Twitch, YouTube, and community history. You get one guess per round. A perfect guess scores 1.00×. Lower is better.</p>'+
-    '<p class="hint">The answers use a fixed channel stats snapshot from November 2026. The order rotates at midnight Central.</p>'+
+    '<p class="hint">Seven guesses. See how far off you were after each one.</p>'+
     '<div class="actions"><button id="play">'+action+' →</button></div>');
   screen.querySelector('#play').onclick = () => guesses.length === size ? results() : prompt();
 }
@@ -51,7 +51,7 @@ function prompt(){
   const question = daily[index];
   progress.textContent = 'Q' + (index + 1) + ' / ' + size;
   show('<p class="kicker">'+question.category+'</p><h1>'+question.prompt+'</h1>'+
-    '<p class="hint">Use the November 2026 snapshot.</p>'+
+
     '<form><label for="guess" class="sr-only">Your estimate</label><div class="input-row"><input id="guess" type="text" inputmode="decimal" autocomplete="off" maxlength="24" required placeholder="your guess"><span>'+question.unit+'</span></div>'+
     '<p class="error" id="error" role="status"></p><div class="actions prompt-actions"><button type="button" id="calculator" class="secondary" aria-label="Calculator" aria-expanded="false">▦</button><button>Lock it in ↵</button></div></form><div id="calculator-panel" hidden></div>');
   const field = screen.querySelector('#guess');
@@ -77,8 +77,9 @@ function reveal(index){
   const direction = guess === question.answer ? 'Exactly right' : guess < question.answer ? 'Too low' : 'Too high';
   show('<div class="reveal"><p class="kicker">'+question.category+'</p><h1 class="score">'+scoreLabel(difference)+'</h1><p>'+direction+'</p>'+
     '<div class="comparison"><div><small>Your guess</small><strong>'+format.format(guess)+' '+question.unit+'</strong></div>'+
-    '<div><small>Recorded answer</small><strong>'+format.format(question.answer)+' h</strong></div></div>'+
-    '<p class="hint">'+question.source+'</p>'+
+    '<div><small>Answer</small><strong>'+format.format(question.answer)+' '+question.unit+'</strong></div></div>'+
+    '<div class="accuracy" aria-hidden="true"><i style="--accuracy:'+Math.max(4,100/difference)+'%"></i></div>'+
+    '<details class="answer-source"><summary>Where this number comes from</summary><p>'+question.source+'</p></details>'+
     '<div class="actions"><button id="next">'+(guesses.length === size ? 'See results' : 'Next question')+' →</button></div></div>');
   screen.querySelector('#next').onclick = () => guesses.length === size ? results() : prompt();
 }
@@ -87,7 +88,7 @@ function results(){
   const average = guesses.reduce((sum, guess, index) => sum + factor(guess, daily[index].answer) / size, 0);
   show('<h1 class="score">'+scoreLabel(average)+'</h1><p>Average error factor · Lower is better</p><ol class="recap">'+
     daily.map((question, index) => '<li><strong>'+question.category+' · '+scoreLabel(factor(guesses[index], question.answer))+
-      '</strong><span>'+format.format(guesses[index])+' '+question.unit+' guessed · '+format.format(question.answer)+' recorded</span></li>').join('')+
+      '</strong><span>'+format.format(guesses[index])+' '+question.unit+' guessed · '+format.format(question.answer)+' '+question.unit+' actual</span></li>').join('')+
     '</ol><div class="actions"><button id="copy">Copy score</button><button class="secondary" id="back">Back to start</button></div><p id="copy-status" role="status"></p>');
   screen.querySelector('#back').onclick = home;
   screen.querySelector('#copy').onclick = async () => {
