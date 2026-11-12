@@ -12,6 +12,9 @@
 .idea-bank summary{padding:16px 18px;cursor:pointer;font-weight:700}
 .idea-bank summary span{float:right;color:var(--muted);font-size:12px;font-weight:400}
 .idea-bank>p{margin:0;padding:0 18px 14px;font-size:14px}
+.idea-filter{display:block;padding:0 18px 12px;color:var(--muted);font-size:12px}
+.idea-filter input{display:block;width:100%;margin-top:6px;padding:9px 11px;background:#0f0c13;border:1px solid #615668;border-radius:8px;color:var(--ink);font:inherit}
+.idea-filter input:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
 .idea-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 14px 14px}
 .idea-list article{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px;background:#17131d;border:1px solid #39313d;border-radius:9px}
 .idea-list strong{color:var(--lime);font-size:13px}
@@ -19,9 +22,8 @@
 .idea-list small{display:block;font-size:12px;line-height:1.45}
 .idea-list button{flex:none;padding:8px 10px;font-size:12px}
 .estimate-ideas-heading{margin:8px 18px;font-size:15px}
-.estimate-ideas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;padding:0 18px 18px;list-style:none}
-.estimate-ideas li{padding:12px;background:#17131d;border:1px solid #39313d;border-radius:8px;color:var(--muted);font-size:13px;line-height:1.5}
-.estimate-ideas strong{color:var(--lime)}
+.estimate-ideas-heading span{color:var(--muted);font-size:12px;font-weight:400}
+.idea-status{grid-column:1/-1;color:var(--muted);font-size:13px}
 .question-editor{display:grid;gap:10px}
 .question-editor label{margin:8px 0 0;font-size:14px}
 .question-editor input,.question-editor select,.question-editor textarea{
@@ -44,7 +46,6 @@
 @media(max-width:620px){
   .studio-header{padding-inline:6px}
   .idea-list{grid-template-columns:1fr}
-  .estimate-ideas{grid-template-columns:1fr}
   .idea-list article{align-items:center}
   .idea-bank summary span{float:none;display:block;margin-top:4px}
   .question-editor .picker-row{align-items:stretch}

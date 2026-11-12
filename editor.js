@@ -7,7 +7,8 @@ function validQuestionShape(question){
   return question&&typeof question==='object'&&typeof question.category==='string'&&
     typeof question.prompt==='string'&&Array.isArray(question.answers)&&
     question.answers.every(answer=>typeof answer==='string')&&
-    (question.source===undefined||typeof question.source==='string');
+    (question.source===undefined||typeof question.source==='string')&&
+    (question.answerTarget===undefined||question.answerTarget===30);
 }
 function readDraft(){
   try{
@@ -43,6 +44,47 @@ function show(){
 function setBusy(busy){
   for(const id of ['add','copy','download','reset','pick'])el(id).disabled=busy;
 }
+function ideaCard(idea,type){
+  const card=document.createElement('article');
+  const content=document.createElement('div');
+  const category=document.createElement('strong');
+  const prompt=document.createElement('p');
+  const evidence=document.createElement('small');
+  const button=document.createElement('button');
+  category.textContent=idea.category;
+  prompt.textContent=idea.prompt;
+  evidence.textContent=type==='trivia'?
+    idea.evidence+' Board target: 30–50 distinct answers.':idea.evidence;
+  button.type='button';
+  button.textContent=type==='trivia'?'Use idea':'Copy prompt';
+  button.dataset.prompt=idea.prompt;
+  if(type==='trivia'){
+    button.dataset.category=idea.category;
+    button.dataset.answerTarget='30';
+  }
+  content.append(category,prompt,evidence);
+  card.append(content,button);
+  card.dataset.search=(idea.category+' '+idea.prompt+' '+idea.evidence).toLowerCase();
+  return card;
+}
+function renderIdeas(ideas){
+  if(!Array.isArray(ideas?.trivia)||ideas.trivia.length!==25||
+     !Array.isArray(ideas?.estimate)||ideas.estimate.length!==25)throw Error('Expected 25 ideas per game.');
+  const valid=group=>group.every(idea=>typeof idea.category==='string'&&
+    typeof idea.prompt==='string'&&typeof idea.evidence==='string');
+  if(!valid(ideas.trivia)||!valid(ideas.estimate))throw Error('Invalid question idea.');
+  el('idea-count').textContent=(ideas.trivia.length+ideas.estimate.length)+' evidence-first prompts';
+  el('trivia-count').textContent='('+ideas.trivia.length+')';
+  el('estimate-count').textContent='('+ideas.estimate.length+')';
+  el('trivia-ideas').replaceChildren(...ideas.trivia.map(idea=>ideaCard(idea,'trivia')));
+  el('estimate-ideas').replaceChildren(...ideas.estimate.map(idea=>ideaCard(idea,'estimate')));
+}
+function filterIdeas(inputId,containerId){
+  const query=el(inputId).value.trim().toLowerCase();
+  for(const card of el(containerId).querySelectorAll('article')){
+    card.hidden=!card.dataset.search.includes(query);
+  }
+}
 function answerParts(line){
   const [points,...names]=line.split('|').map(value=>value.trim());
   return {points,names};
@@ -55,8 +97,11 @@ function validate(){
     if(parsed.some(({points,names})=>
       !['10','25','45','70','100'].includes(points)||!names.length||names.some(name=>!/[a-z0-9]/i.test(name))
     ))return {index,message:'Check every answer row and its point tier.'};
-    const canonical=parsed.map(row=>row.names[0].toLocaleLowerCase());
-    if(new Set(canonical).size<5)return {index,message:'Add at least five distinct answers.'};
+    const distinctCount=new Set(parsed.map(row=>row.names[0].toLowerCase())).size;
+    const minimum=question.answerTarget||5;
+    if(distinctCount<minimum)return {index,message:'Add '+minimum+'–50 distinct, verified answers.'};
+    if(question.answerTarget&&distinctCount>50)return {index,message:'Keep this board between 30 and 50 distinct answers.'};
+    if(question.answerTarget&&distinctCount!==parsed.length)return {index,message:'Remove duplicate primary answers; aliases belong on the same row.'};
     if(parsed.filter(row=>row.points==='100').length!==1)return {index,message:'Each question needs exactly one 100-point answer.'};
     if(question.source){
       try{
@@ -97,12 +142,21 @@ fetch('questions.json',{cache:'no-cache'}).then(response=>{
     throw Error('Question bank has an invalid format.');
   }
   published=JSON.parse(JSON.stringify(questions));
-  data=readDraft()||JSON.parse(JSON.stringify(published));
+  const draft=readDraft();
+  data=draft||JSON.parse(JSON.stringify(published));
   show();
-  if(data!==published)el('status').textContent='Saved draft restored from this browser.';
+  if(draft)el('status').textContent='Saved draft restored from this browser.';
   setBusy(false);
 }).catch(()=>{
   el('status').textContent='Could not load a valid question bank. Refresh to try again.';
+});
+fetch('question-ideas.json',{cache:'no-cache'}).then(response=>{
+  if(!response.ok)throw Error('Question ideas request failed.');
+  return response.json();
+}).then(renderIdeas).catch(()=>{
+  el('idea-count').textContent='Ideas unavailable';
+  el('trivia-ideas').textContent='Could not load trivia ideas.';
+  el('estimate-ideas').textContent='Could not load Estimate ideas.';
 });
 
 el('pick').onchange=()=>{
@@ -112,7 +166,7 @@ el('pick').onchange=()=>{
 };
 el('add').onclick=()=>{
   capture();
-  current=data.push({category:'',prompt:'',source:'',answers:[]})-1;
+  current=data.push({category:'',prompt:'',source:'',answers:[],answerTarget:30})-1;
   saveDraft();
   show();
   el('category').focus();
@@ -120,7 +174,7 @@ el('add').onclick=()=>{
 for(const id of fields){
   el(id).addEventListener('input',capture);
 }
-document.querySelector('.idea-list').onclick=event=>{
+el('trivia-ideas').onclick=event=>{
   const button=event.target.closest('button[data-category][data-prompt]');
   if(!button)return;
   capture();
@@ -128,13 +182,26 @@ document.querySelector('.idea-list').onclick=event=>{
     category:button.dataset.category,
     prompt:button.dataset.prompt,
     source:'',
-    answers:[]
+    answers:[],
+    answerTarget:Number(button.dataset.answerTarget)
   })-1;
   saveDraft();
   show();
   el('source').focus();
-  el('status').textContent='Idea added. Add an evidence URL and at least five verified answers.';
+  el('status').textContent='Idea added. Add an evidence URL and 30–50 distinct verified answers.';
 };
+el('estimate-ideas').onclick=async event=>{
+  const button=event.target.closest('button[data-prompt]');
+  if(!button)return;
+  try{
+    await navigator.clipboard.writeText(button.dataset.prompt);
+    el('status').textContent='Estimate prompt copied.';
+  }catch{
+    el('status').textContent='Copy unavailable. Prompt: '+button.dataset.prompt;
+  }
+};
+el('trivia-filter').oninput=()=>filterIdeas('trivia-filter','trivia-ideas');
+el('estimate-filter').oninput=()=>filterIdeas('estimate-filter','estimate-ideas');
 el('copy').onclick=async()=>{
   if(!publishableData())return;
   try{
@@ -154,7 +221,8 @@ el('reset').onclick=()=>{
   if(!window.confirm('Discard this browser’s question draft and restore the published bank?'))return;
   data=JSON.parse(JSON.stringify(published));
   current=0;
-  try{localStorage.removeItem(draftKey)}catch{}
+  try{localStorage.removeItem(draftKey)}
+  catch{el('status').textContent='Could not remove the saved draft from browser storage.';return}
   show();
   el('status').textContent='Local draft discarded.';
 };

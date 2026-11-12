@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Question Studio · Daily Zav</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="editor.css?v=studio-polish">
-  <script src="editor.js?v=draft-safe" defer></script>
+  <link rel="stylesheet" href="editor.css?v=ideas50">
+  <script src="editor.js?v=ideas50" defer></script>
 </head>
 <body class="studio-page">
   <header class="studio-header">
@@ -18,41 +18,22 @@
     <p class="studio-intro">Edit the published question bank or draft new rounds. Changes autosave in this browser; publish by copying the JSON into GitHub and committing it.</p>
 
     <details class="idea-bank">
-      <summary>Question ideas <span>6 evidence-first prompts</span></summary>
-      <p>These are starting points, not verified questions. Gather a source and answer list before publishing; the point tiers should reflect how often an answer appears.</p>
-      <div class="idea-list">
-        <article>
-          <div><strong>Stream archive</strong><p>Name a game Zav streamed during [month and year].</p><small>Use the dated Twitch stream archive to build a verifiable answer list.</small></div>
-          <button type="button" data-category="TWITCH · STREAM ARCHIVE" data-prompt="Name a game Zav streamed during [month and year].">Use idea</button>
-        </article>
-        <article>
-          <div><strong>Deep cuts</strong><p>Name a game Zav streamed only once.</p><small>Choose a fixed date range and verify the category count in stream history.</small></div>
-          <button type="button" data-category="TWITCH · DEEP CUTS" data-prompt="Name a game Zav streamed only once.">Use idea</button>
-        </article>
-        <article>
-          <div><strong>Viewer challenges</strong><p>Name a viewer challenge from a specific stream.</p><small>Link the VOD and record the challenge names before assigning rarity.</small></div>
-          <button type="button" data-category="TWITCH · VIEWER CHALLENGES" data-prompt="Name a viewer challenge from a specific stream.">Use idea</button>
-        </article>
-        <article>
-          <div><strong>Shorts titles</strong><p>Name a word from a specific Zaviantee Short title.</p><small>Link the Short and preserve the exact title text in the answer notes.</small></div>
-          <button type="button" data-category="SHORTS · TITLE WORDS" data-prompt="Name a word from a specific Zaviantee Short title.">Use idea</button>
-        </article>
-        <article>
-          <div><strong>Community moments</strong><p>Name a viewer who won a challenge on stream.</p><small>Use a public VOD or clip and include the exact event in the source notes.</small></div>
-          <button type="button" data-category="TWITCH · COMMUNITY MOMENTS" data-prompt="Name a viewer who won a challenge on stream.">Use idea</button>
-        </article>
-        <article>
-          <div><strong>Monthly variety</strong><p>Name a game category Zav streamed during [month and year].</p><small>Use the dated archive and list categories that actually appeared that month.</small></div>
-          <button type="button" data-category="TWITCH · MONTHLY VARIETY" data-prompt="Name a game category Zav streamed during [month and year].">Use idea</button>
-        </article>
+      <summary>Question ideas <span id="idea-count">Loading ideas…</span></summary>
+      <p>These are prompts, not verified answer keys. Gather source-backed facts before publishing; trivia point tiers should reflect how often an answer appears. Estimate ideas need dated numeric answers added to the Estimate game.</p>
+      <h3 class="estimate-ideas-heading">Trivia ideas <span id="trivia-count"></span></h3>
+      <label class="idea-filter" for="trivia-filter">Filter trivia prompts
+        <input id="trivia-filter" type="search" placeholder="Search trivia ideas">
+      </label>
+      <div class="idea-list" id="trivia-ideas">
+        <p id="trivia-ideas-status" class="idea-status">Loading trivia ideas…</p>
       </div>
-      <h3 class="estimate-ideas-heading">Ideas for Zav Estimate</h3>
-      <ul class="estimate-ideas">
-        <li><strong>Monthly airtime:</strong> “How many hours did Zav stream in [month]?” Use a dated Twitch stats snapshot.</li>
-        <li><strong>Stream variety:</strong> “How many different game categories did Zav stream in [month]?” Deduplicate the dated archive.</li>
-        <li><strong>Shorts reach:</strong> “How many views did Zav’s most-viewed Short have on [date]?” Record the snapshot date because counts change.</li>
-        <li><strong>Peak audience:</strong> “What was Zav’s highest concurrent viewer count in [month]?” Cite the same stats source and date for every edition.</li>
-      </ul>
+      <h3 class="estimate-ideas-heading">Zav Estimate ideas <span id="estimate-count"></span></h3>
+      <label class="idea-filter" for="estimate-filter">Filter estimate prompts
+        <input id="estimate-filter" type="search" placeholder="Search Estimate ideas">
+      </label>
+      <div class="idea-list estimate-idea-list" id="estimate-ideas">
+        <p id="estimate-ideas-status" class="idea-status">Loading Estimate ideas…</p>
+      </div>
     </details>
 
     <section class="question-editor" aria-labelledby="editor-heading">
@@ -69,7 +50,7 @@
       <label for="source">Evidence URL <span class="label-note">recommended</span></label>
       <input id="source" type="url" inputmode="url" placeholder="https://…" autocomplete="url">
       <label for="answers">Accepted answers</label>
-      <p class="field-help">One answer per line: <code>70 | Nintendo 64 | N64</code>. Use at least five distinct answers and exactly one 100-point answer. Add accepted spellings after the first <code>|</code>.</p>
+      <p class="field-help">One answer per line: <code>70 | Nintendo 64 | N64</code>. New trivia boards need 30–50 distinct verified answers and exactly one 100-point answer. Existing boards may be smaller. Add accepted spellings after the first <code>|</code>.</p>
       <textarea id="answers" rows="12" spellcheck="false"></textarea>
       <p class="draft-note">Drafts autosave in this browser. Publishing still requires GitHub write access.</p>
       <div class="editor-actions">
