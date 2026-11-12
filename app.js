@@ -32,7 +32,8 @@ active=true;deadline=Date.now()+seconds*1000;let lastTick, suggestion;const upda
   stage.querySelector('#answer-status').textContent='';
 };
 stage.querySelector('#skip').onclick=()=>finish('','Skipped');tick=setInterval(update,50);update()}
-function finish(input,reason){if(!active)return;if(Date.now()>=deadline){input='';reason='Time’s up'}const q=round[log.length];const rows=q.answers.map(s=>s.split('|').map(x=>x.trim()));const hit=rows.find(r=>r.slice(1).some(a=>norm(a)===norm(input)));if(input&&!hit){const field=stage.querySelector('input');field.setAttribute('aria-invalid','true');stage.querySelector('#answer-status').textContent='Not on the board. Try another answer.';field.focus();field.select();playCue('reject');return}active=false;clearInterval(tick);const points=hit?Number(hit[0]):0;const name=hit?tiers[points]:reason||'Not on the board';playCue(points===100?'jackpot':points>=70?'rare':points?'hit':'timeout');log.push({input,points,name,canonical:hit?.[1]});save();signal();paint('<div class="meta"><span>ROUND '+log.length+' / '+round.length+' · ANSWER REVEAL</span><span>'+score()+' PTS TOTAL</span></div><div class="reveal '+(points===100?'jackpot':points>=70?'rare':'')+'"><h2>'+esc(name)+'</h2><div class="points">+'+points+'</div><p>'+esc(hit?hit[1]:input||'No answer locked in')+'</p></div><button id="next">'+(log.length===round.length?'See results':'Next prompt')+' →</button>','#next');stage.querySelector('#next').onclick=()=>log.length===round.length?results():question();mountAnswerBoard(stage,q,hit?.[1]);}
+function finish(input,reason){if(!active)return;if(Date.now()>=deadline){input='';reason='Time’s up'}const q=round[log.length];const rows=q.answers.map(s=>s.split('|').map(x=>x.trim()));const hit=rows.find(r=>r.slice(1).some(a=>norm(a)===norm(input)));if(input&&!hit){const field=stage.querySelector('input');field.setAttribute('aria-invalid','true');stage.querySelector('#answer-status').textContent='Not on the board. Try another answer.';field.focus();field.select();playCue('reject');return}active=false;clearInterval(tick);const points=hit?Number(hit[0]):0;const name=hit?tiers[points]:reason||'Not on the board';playCue(points===100?'jackpot':points>=70?'rare':points?'hit':'timeout');log.push({input,points,name,canonical:hit?.[1]});save();signal();paint('<div class="meta"><span>ROUND '+log.length+' / '+round.length+' · ANSWER REVEAL</span><span>'+score()+' PTS TOTAL</span></div><div class="reveal '+(points===100?'jackpot':points>=70?'rare':'')+'"><h2>'+esc(name)+'</h2><div class="points">+'+points+'</div><p>'+esc(hit?hit[1]:input||'No answer locked in')+'</p></div><button id="next">'+(log.length===round.length?'See results':'Next prompt')+' →</button>','#next');stage.querySelector('#next').onclick=()=>{playCue('advance');log.length===round.length?results():question()};mountAnswerBoard(stage,q,hit?.[1]);
+  animateReveal(points);}
 function results(){paint('<div class="meta">'+(practice?'PRACTICE':'DAILY')+' · '+esc(date)+'</div><h2>That’s a wrap.</h2><div class="points">'+score()+' / '+round.length+'00</div>'+scoreTrack()+'<ol class="review">'+log.map((r,i)=>'<li><span><small>'+esc(round[i].prompt)+'</small>'+esc(r.input||'—')+' · '+esc(r.name)+'</span><b>+'+r.points+'</b></li>').join('')+'</ol><div class="actions"><button id="share">Copy score</button><button id="home" class="alt">Back to studio</button></div><p id="share-status" role="status"></p>','h2');round.forEach((question,i)=>mountAnswerBoard(stage,question,log[i].canonical||log[i].input,stage.querySelector('.actions')));stage.querySelector('#home').onclick=home;stage.querySelector('#share').onclick=async()=>{const s='Daily Zav · '+date+(practice?' (practice)':'')+' · '+score()+'/'+maxScore()+'\n'+log.map(r=>r.points===100?'🟨':r.points>=70?'🟩':r.points?'🟪':'⬛').join('')+'\n'+location.href;try{await navigator.clipboard.writeText(s);stage.querySelector('#share-status').textContent='Score copied.'}catch{stage.querySelector('#share-status').textContent=s}}}
 fetch('questions.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error();return r.json()}).then(data=>{if(!Array.isArray(data)||data.length<1||!data.every(q=>q?.category&&q?.prompt&&Array.isArray(q.answers)&&q.answers.length>0&&q.answers.every(a=>typeof a==='string'&&/^(10|25|45|70|100)\s*\|\s*\S/.test(a))))throw Error();bank=data;home()}).catch(()=>paint('<h2>Off air</h2><p>The question bank couldn’t load. Refresh to try again.</p>'));
 const soundButton=document.querySelector('#sound');
@@ -47,13 +48,14 @@ function playCue(kind){
   try{
     audioContext ||= new AudioContext();
     if(audioContext.state==='suspended')audioContext.resume().catch(()=>{});
-    const notes={start:[196,294,392],hint:[294,440],rare:[330,440,554,740,880],reject:[185,130],tick:[415],hit:[330,494,659],jackpot:[392,523,659,784,1047],timeout:[247,165]}[kind];
+    const notes={start:[196,294,392],advance:[262,392],hint:[294,440],rare:[330,440,554,740,880],reject:[185,130],tick:[415],hit:[330,494,659],jackpot:[392,523,659,784,1047],timeout:[247,165]}[kind];
     notes.forEach((frequency,index)=>{
       const start=audioContext.currentTime+index*.074;
       const oscillator=audioContext.createOscillator();
       const gain=audioContext.createGain();
       oscillator.type=kind==='reject'?'sine':'triangle';
-      oscillator.frequency.value=frequency;
+      oscillator.frequency.setValueAtTime(frequency,start);
+      if(kind==='jackpot')oscillator.frequency.exponentialRampToValueAtTime(frequency*1.06,start+.18);
       gain.gain.setValueAtTime(.001,start);
       gain.gain.exponentialRampToValueAtTime(kind==='tick'?.023:.075,start+.012);
       gain.gain.exponentialRampToValueAtTime(.001,start+.22);
@@ -168,29 +170,52 @@ function mountAnswerBoard(parent, question, picked, before=null){
     Object.keys(tiers).reverse().filter(points=>rows.some(row=>row.points===Number(points))).map(points=>
       '<option value="'+points+'">'+esc(tiers[points])+' · '+points+' pts</option>'
     ).join('')+'</select></label></div>'+
-    '<p class="board-count" role="status"></p><ul></ul>'+
-    '<div class="board-pages"><button type="button" class="alt">Previous</button><button type="button" class="alt">Next page</button></div></div>';
+    '<p class="board-count" role="status"></p>'+
+    '<ul class="answer-scroll" tabindex="0" aria-label="Accepted answers"></ul></div>';
   parent.insertBefore(board,before);
   const search=board.querySelector('input'), filter=board.querySelector('select');
-  const [prev,next]=board.querySelectorAll('button');
-  const pageSize=12;
-  let page=0;
+  const list=board.querySelector('ul');
   function render(){
     const query=norm(search.value);
     const matches=rows.filter(row=>(!filter.value||row.points===Number(filter.value))&&
       (!query||[row.name,...row.aliases].some(value=>norm(value).includes(query))));
-    const offset=page*pageSize;
-    board.querySelector('ul').innerHTML=matches.slice(offset,offset+pageSize).map(row=>
+    list.innerHTML=matches.map(row=>
       '<li><span>'+esc(row.name)+(picked&&norm(picked)===norm(row.name)?' <small class="your-pick">Your answer</small>':'')+
       '</span><strong data-tier="'+row.points+'">'+row.points+' pts</strong></li>'
     ).join('');
     board.querySelector('.board-count').textContent=matches.length?
-      (offset+1)+'–'+Math.min(offset+pageSize,matches.length)+' of '+matches.length+' answers':'No matching answers';
-    prev.disabled=page===0;
-    next.disabled=offset+pageSize>=matches.length;
+      matches.length+' '+(matches.length===1?'answer':'answers'):'No matching answers';
+    list.scrollTop=0;
   }
-  search.oninput=filter.onchange=()=>{page=0;render()};
-  prev.onclick=()=>{page--;render()};
-  next.onclick=()=>{page++;render()};
+  search.oninput=filter.onchange=render;
   board.addEventListener('toggle',()=>{if(board.open)render()});
+}
+function animateReveal(points){
+  if(!points||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const reveal=stage.querySelector('.reveal');
+  const value=reveal.querySelector('.points');
+  const burst=document.createElement('span');
+  burst.className='signal-burst';
+  burst.setAttribute('aria-hidden','true');
+  const count=points===100?28:points>=70?18:10;
+  for(let i=0;i<count;i++){
+    const spark=document.createElement('i');
+    const angle=i/count*Math.PI*2;
+    const radius=(points===100?120:72)+(i%5)*12;
+    spark.style.setProperty('--x',Math.cos(angle)*radius+'px');
+    spark.style.setProperty('--y',Math.sin(angle)*radius+'px');
+    spark.style.setProperty('--delay',i%4*25+'ms');
+    burst.append(spark);
+  }
+  reveal.append(burst);
+  const duration=points===100?780:460;
+  const start=performance.now();
+  value.textContent='+0';
+  function countUp(now){
+    if(!value.isConnected)return;
+    const time=Math.min(1,(now-start)/duration);
+    value.textContent='+'+Math.round(points*(1-(1-time)**3));
+    if(time<1)requestAnimationFrame(countUp);
+  }
+  requestAnimationFrame(countUp);
 }
