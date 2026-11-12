@@ -79,3 +79,24 @@ aside img { display:block; width:34px; border-radius:3px; }
 @keyframes spark-out { from { opacity:0; transform:translate(0,0) scale(.6); } 14% { opacity:1; } to { opacity:0; transform:translate(var(--x),var(--y)) rotate(110deg) scale(.2); } }
 #stage #next { margin-top:4px; min-width:180px; }
 @media(max-width:420px) { header { flex-wrap:wrap; } header a:nth-child(2) { margin-left:0; } header #sound { margin-left:auto; } }
+#round-hud { display:flex; justify-content:center; gap:7px; margin:12px auto 0; }
+#round-hud:empty { display:none; }
+#round-hud span { width:32px; height:26px; display:grid; place-items:center; border:1px solid #997084; background:#21152e; color:#dbc8dc; font-size:11px; }
+#round-hud .current { color:#1b152a; background:#ffd982; border-color:#fff0b5; box-shadow:0 0 14px #ffc36c88; }
+#round-hud .hit { background:#b25681; color:#fff; }
+#round-hud .rare-hit { background:#ffdb85; color:#201629; }
+#round-hud .miss { color:#bda9c3; border-style:dashed; }
+#stage .dots { display:none; }
+#stage h1 { color:#fff4d6; text-shadow:0 3px #703d73,0 8px #251630,0 0 48px #ffe2a666; }
+[data-screen=home] #stage { padding-bottom:72px; }
+[data-screen=home] #stage .actions button:first-child { min-width:min(84vw,320px); min-height:56px; border:1px solid #fff0b8; box-shadow:0 0 28px #ffa65f80,0 6px #744064; }
+[data-screen=play] #stage { min-height:calc(100svh - 218px); }
+[data-screen=play] #stage h2 { width:min(100%,620px); border-top:3px solid #f6c085; padding:clamp(16px,4vw,32px); background:linear-gradient(150deg,#34203b,#171128 74%); }
+#stage #time { color:#ffda8d; min-width:4ch; text-align:right; }
+#stage .clock { height:8px; border:1px solid #99677e; background:#22152e; }
+#stage .clock div { background:linear-gradient(90deg,#ff78a5,#ffdc84); }
+#stage .clock .low { background:#ff7b83; }
+#stage form:focus-within { box-shadow:0 0 24px #ffa0715c; }
+.board-source { display:inline-block; margin:8px 0 0; color:var(--lime); font-size:12px; }
+.score-track { max-width:100%; flex-wrap:wrap; justify-content:center; }
+@media(max-width:500px) { #round-hud span { width:28px; } .score-track { gap:8px; } .score-column { min-width:32px; } }

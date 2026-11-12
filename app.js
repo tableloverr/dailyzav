@@ -1,4 +1,4 @@
-const stage=document.querySelector('#stage'), key='dailyzav-v7', seconds=25;
+const stage=document.querySelector('#stage'), key='dailyzav-v8', seconds=25;
 const day=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const norm=s=>s.normalize('NFKD').toLowerCase().replace(/\p{M}/gu,'').replace(/[^a-z0-9_]/g,'');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -9,10 +9,10 @@ function save(){if(!practice)try{localStorage.setItem(key,JSON.stringify({date,l
 function paint(html,focus){stage.innerHTML=html;document.body.dataset.screen=stage.querySelector('form')?'play':stage.querySelector('.reveal')?'reveal':stage.querySelector('.review')?'results':'home';if(focus){const el=stage.querySelector(focus);if(el){if(el.tagName==='H2')el.tabIndex=-1;el.focus()}}}
 function score(){return log.reduce((n,x)=>n+x.points,0)}
 function maxScore(){return round.length*100}
-function signal(){document.querySelector('#beam').style.width=score()/maxScore()*100+'%';document.querySelector('#signal').textContent=score()+' / '+maxScore()+' SIGNAL'}
-function home(){const saved=read(), played=saved?.date===day();paint('<div class="meta"><span>THE ZAVIANTEE DAILY</span></div><h1>DAILY <em>ZAV</em></h1><p class="muted">Name a Zaviantee viewer or something he streamed. Deeper cuts score more.</p><div class="actions"><button id="daily">'+(played?(saved.log.length===saved.round.length?'View today’s results':'Resume today’s run'):'Start today’s run')+' →</button><button id="practice" class="alt">Practice</button></div><p class="muted">25 seconds · Wrong guesses can be retried</p>');stage.querySelector('#daily').onclick=()=>start(false);stage.querySelector('#practice').onclick=()=>start(true)}
+function signal(){renderHud();document.querySelector('#beam').style.width=score()/maxScore()*100+'%';document.querySelector('#signal').textContent=score()+' / '+maxScore()+' SIGNAL'}
+function home(){document.querySelector('#round-hud').replaceChildren();document.querySelector('#signal').textContent='SIGNAL STANDBY';document.querySelector('#beam').style.width='0%';const saved=read(), played=saved?.date===day();paint('<div class="meta"><span>THE ZAVIANTEE DAILY</span></div><h1>DAILY <em>ZAV</em></h1><p class="muted">Seven rounds of Zaviantee trivia, from Twitch deep cuts to YouTube Shorts.</p><div class="actions"><button id="daily">'+(played?(saved.log.length===saved.round.length?'View today’s results':'Resume today’s run'):'Start today’s run')+' →</button><button id="practice" class="alt">Practice</button></div><p class="muted">7 rounds · 25 seconds each · Retry wrong guesses</p>');stage.querySelector('#daily').onclick=()=>start(false);stage.querySelector('#practice').onclick=()=>start(true)}
 function start(p){playCue('start');practice=p;date=day();const saved=read();const offset=p?Math.floor(Math.random()*bank.length):Math.floor(Date.parse(date)/86400000)%bank.length;round=Array.from({length:Math.min(7,bank.length)},(_,i)=>bank[(offset+i+bank.length)%bank.length]);log=[];if(!p&&saved?.date===date){log=saved.log;round=saved.round}save();signal();if(log.length>=round.length)results();else question()}
-function question(){clearInterval(tick);const q=round[log.length];paint('<div class="meta"><span>'+ (practice?'PRACTICE':'DAILY')+' · '+(log.length+1)+' / '+round.length+'</span><span id="time">25s</span></div><div class="clock"><div id="bar"></div></div><div class="dots" aria-hidden="true">'+round.map((_,i)=>'<b class="'+(i<log.length?'past':i===log.length?'now':'')+'"></b>').join('')+'</div><p class="meta">'+esc(q.category)+'</p><h2>'+esc(q.prompt)+'</h2><form><input aria-label="Your answer" required maxlength="100" placeholder="Type your answer…" autocomplete="off"><button>Lock in ↵</button></form><p id="answer-status" role="status"></p><p><button id="skip" class="alt">Skip</button></p>','input');
+function question(){renderHud(true);clearInterval(tick);const q=round[log.length];paint('<div class="meta"><span>'+ (practice?'PRACTICE':'DAILY')+' · '+(log.length+1)+' / '+round.length+'</span><span id="time">25s</span></div><div class="clock"><div id="bar"></div></div><div class="dots" aria-hidden="true">'+round.map((_,i)=>'<b class="'+(i<log.length?'past':i===log.length?'now':'')+'"></b>').join('')+'</div><p class="meta">'+esc(q.category)+'</p><h2>'+esc(q.prompt)+'</h2><form><input aria-label="Your answer" required maxlength="100" placeholder="Type your answer…" autocomplete="off"><button>Lock in ↵</button></form><p id="answer-status" role="status"></p><p><button id="skip" class="alt">Skip</button></p>','input');
 active=true;deadline=Date.now()+seconds*1000;let lastTick, suggestion;const update=()=>{const left=Math.max(0,deadline-Date.now());const bar=document.querySelector('#bar');bar.style.width=(left/250)+'%';bar.classList.toggle('low',left<=5000);document.querySelector('#time').textContent=Math.ceil(left/1000)+'s';if(left>0&&left<=5000&&Math.ceil(left/1000)!==lastTick){lastTick=Math.ceil(left/1000);playCue('tick')}if(!left)finish('','Time’s up')};stage.querySelector('form').onsubmit=e=>{e.preventDefault();const s=stage.querySelector('input').value.trim();if(!s)return;
   if(Date.now()>=deadline){finish('','Time’s up');return}
   if(suggestion?.guess===s){finish(suggestion.answer,'');return}
@@ -173,6 +173,15 @@ function mountAnswerBoard(parent, question, picked, before=null){
     '<p class="board-count" role="status"></p>'+
     '<ul class="answer-scroll" tabindex="0" aria-label="Accepted answers"></ul></div>';
   parent.insertBefore(board,before);
+  if(question.source?.startsWith('https://')){
+    const source=document.createElement('a');
+    source.href=question.source;
+    source.target='_blank';
+    source.rel='noopener noreferrer';
+    source.textContent='Source ↗';
+    source.className='board-source';
+    board.querySelector('.board-content').append(source);
+  }
   const search=board.querySelector('input'), filter=board.querySelector('select');
   const list=board.querySelector('ul');
   function render(){
@@ -218,4 +227,17 @@ function animateReveal(points){
     if(time<1)requestAnimationFrame(countUp);
   }
   requestAnimationFrame(countUp);
+}
+
+
+function renderHud(current=false){
+  const hud=document.querySelector('#round-hud');
+  hud.replaceChildren(...round.map((_,index)=>{
+    const cell=document.createElement('span');
+    cell.textContent=String(index+1).padStart(2,'0');
+    const result=log[index];
+    cell.className=result?(result.points>=70?'rare-hit':result.points?'hit':'miss'):current&&index===log.length?'current':'';
+    cell.setAttribute('aria-label','Round '+(index+1)+(result?', '+result.points+' points':current&&index===log.length?', current':''));
+    return cell;
+  }));
 }
