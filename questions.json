@@ -1,61 +1,64 @@
 [
   {
-    "category": "STREAM ARCHIVE",
-    "prompt": "Name a category from Zaviantee’s October Twitch streams.",
+    "category": "STREAM ROTATION",
+    "prompt": "Name a game Zaviantee streamed on Twitch.",
     "answers": [
-      "10 | The Walking Dead | Walking Dead | TWD",
-      "25 | Rainbow Six Siege | R6 | Siege | Rainbow Six",
-      "45 | Just Chatting"
+      "10 | Rainbow Six Siege | Siege | R6 | Siege X",
+      "25 | The Walking Dead | Walking Dead | TWD",
+      "45 | Roblox",
+      "70 | Fortnite",
+      "100 | Until Dawn"
     ]
   },
   {
-    "category": "CLIP ARCHIVE",
-    "prompt": "Name a character referenced in Zaviantee’s October 29 Just Chatting clip titles.",
+    "category": "SEPTEMBER ARCHIVE",
+    "prompt": "Name a game Zaviantee played on his September 17 stream.",
+    "answers": [
+      "10 | Roblox",
+      "45 | Rainbow Six Siege | Siege | R6 | Siege X",
+      "100 | Fortnite"
+    ]
+  },
+  {
+    "category": "CHAT CLIPS",
+    "prompt": "Name a character mentioned in Zaviantee’s October 29 clip titles.",
     "answers": [
       "25 | Peter Griffin | Peter",
       "100 | Mr. Krabs | Mr Crabs | Krabs | Crabs"
     ]
   },
   {
-    "category": "THE WALKING DEAD",
-    "prompt": "Which returning character is named in Zaviantee’s Walking Dead clip title?",
+    "category": "HORROR STREAMS",
+    "prompt": "Name a horror or survival story game Zaviantee streamed.",
     "answers": [
-      "45 | Kenny"
+      "25 | The Walking Dead | Walking Dead | TWD",
+      "100 | Until Dawn"
     ]
   },
   {
-    "category": "SIEGE BET",
-    "prompt": "Whose merch did the loser have to buy in Zaviantee’s Siege stream?",
+    "category": "CLIP CATEGORIES",
+    "prompt": "Name a Twitch category from Zaviantee’s October clip archive.",
     "answers": [
-      "70 | JShock | J Shock"
+      "10 | Just Chatting",
+      "45 | The Walking Dead | Walking Dead | TWD",
+      "100 | Rainbow Six Siege | Siege | R6"
     ]
   },
   {
-    "category": "CHAT CHALLENGE",
-    "prompt": "What could viewers gift to end Zaviantee’s stream, according to his stream title?",
+    "category": "SEPTEMBER ARCHIVE",
+    "prompt": "Name a game Zaviantee streamed on September 14.",
     "answers": [
-      "25 | A sub | Sub | Gift sub | Gifted sub | Subscription | A subscription"
+      "25 | Until Dawn",
+      "45 | Rainbow Six Siege | Siege | R6 | Siege X",
+      "100 | Roblox"
     ]
   },
   {
-    "category": "COMMUNITY",
-    "prompt": "Where did Zaviantee’s stream title tell viewers to join for giveaways?",
+    "category": "STREAM TITLES",
+    "prompt": "Name an activity Zaviantee invited viewers to join in his September stream titles.",
     "answers": [
-      "10 | Discord | His Discord | Discord server"
-    ]
-  },
-  {
-    "category": "STORY STREAM",
-    "prompt": "Which season was Zaviantee playing for the first time in the Walking Dead stream title asking for help?",
-    "answers": [
-      "45 | Season 2 | Season two | S2 | SZN 2 | 2 | Two"
-    ]
-  },
-  {
-    "category": "FAN MAIL",
-    "prompt": "In what Twitch category did Zaviantee’s fan mail clip appear?",
-    "answers": [
-      "25 | Just Chatting"
+      "25 | Spelling bee | Roblox spelling bee",
+      "100 | Wagers | Siege wagers | Wagers with viewers"
     ]
   }
 ]

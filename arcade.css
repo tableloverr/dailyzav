@@ -6,9 +6,9 @@ body { isolation:isolate; font-family:"Space Mono",monospace; background:#130f28
 .moon { position:absolute; width:min(34vw,360px); aspect-ratio:1; top:12%; left:50%; translate:-50%; border-radius:50%; background:repeating-linear-gradient(transparent 0 11px,#a750612e 11px 15px),linear-gradient(#fff1b6,#ff9a83); box-shadow:0 0 100px #ffab7866; transition:transform .65s; }
 .skyline { position:absolute; inset:29% 0 36%; background:#24172e; clip-path:polygon(0 65%,5% 65%,5% 44%,10% 44%,10% 72%,15% 72%,15% 20%,20% 20%,20% 61%,26% 61%,26% 39%,30% 39%,30% 82%,70% 82%,70% 54%,74% 54%,74% 31%,80% 31%,80% 63%,85% 63%,85% 44%,90% 44%,90% 10%,94% 10%,94% 70%,100% 70%,100% 100%,0 100%); }
 .road { position:absolute; inset:64% -35% -65%; background:repeating-linear-gradient(90deg,#fb74994d 0 2px,transparent 2px 7%),repeating-linear-gradient(#fb749955 0 2px,transparent 2px 9%),#1b152c; transform-origin:top center; transform:perspective(240px) rotateX(42deg); border-top:2px solid #ff9f9a; }
-[data-screen=play] .road,[data-screen=reveal] .road { animation:drive 1.25s linear infinite; }
+.road { animation:drive 1.25s linear infinite; }
 [data-screen=reveal] .moon { transform:translateY(-40px) scale(1.15); }
-@keyframes drive { to { background-position:0 0,0 36px; } }
+@keyframes drive { to { background-position:0 0,0 72px; } }
 header,footer { max-width:none; padding:16px clamp(12px,4vw,56px); }
 header a:nth-child(2) { margin-left:auto; }
 header button { font:inherit; padding:8px 10px; }
@@ -36,6 +36,13 @@ aside img { display:block; width:34px; border-radius:3px; }
 #stage .reveal { border:0; padding:28px; min-width:min(100%,340px); background:#1c152ce8; box-shadow:0 0 50px #fe938354; }
 #stage .reveal h2 { margin-top:0; }
 #stage .jackpot { box-shadow:0 0 75px #ffc66f99,inset 0 0 25px #ffc66f55; }
+#stage .rare,#stage .jackpot { position:relative; animation:rare-hit .55s cubic-bezier(.16,1,.3,1) both; }
+#stage .rare { box-shadow:0 0 55px #ff8fabaa; }
+#stage .jackpot .points { color:#fff4b8; text-shadow:0 0 18px #ffbf58; }
+#stage .jackpot::after { content:""; position:absolute; inset:-12px; border:2px solid #ffd97a; pointer-events:none; animation:signal-ring .75s ease-out both; }
+.signal div { transition:width .65s cubic-bezier(.16,1,.3,1); }
+@keyframes rare-hit { from { opacity:.4; transform:translateY(22px) scale(.88); } to { opacity:1; transform:none; } }
+@keyframes signal-ring { from { opacity:.8; transform:scale(.93); } to { opacity:0; transform:scale(1.19); } }
 #stage .review { width:100%; background:#1c152c; padding:12px 20px; text-align:left; }
 @media(max-width:550px) { header { letter-spacing:0; gap:8px; } #stage form { flex-wrap:nowrap; } #stage form input { min-width:0; } }
 @media(prefers-reduced-motion:reduce) { .road { animation:none!important; } }
