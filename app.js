@@ -1,8 +1,8 @@
-const stage=document.querySelector('#stage'), key='dailyzav-v6', seconds=25;
+const stage=document.querySelector('#stage'), key='dailyzav-v7', seconds=25;
 const day=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const norm=s=>s.normalize('NFKD').toLowerCase().replace(/\p{M}/gu,'').replace(/[^a-z0-9_]/g,'');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const tiers={10:'On the Board',25:'Clear Signal',45:'Deep Cut',70:'Rare Find',100:'Perfect Signal'};
+const tiers={10:'On the Board',25:'Clear Signal',45:'Deep Cut',70:'Rare Find',100:'One in a Shower'};
 let bank,round,date,practice,log,tick,active=false,deadline;
 function read(){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function save(){if(!practice)try{localStorage.setItem(key,JSON.stringify({date,log,round}))}catch{}}
