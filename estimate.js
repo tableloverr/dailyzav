@@ -1,9 +1,9 @@
 const questions = [
-  { category:'Siege airtime', unit:'hours', answer:281, prompt:'How many hours did Zav stream Rainbow Six Siege?', source:'Zaviantee’s November 2026 Twitch stats.' },
-  { category:'Twitch peak', unit:'viewers', answer:141, prompt:'What’s the most people watching Zav at once in Just Chatting?', source:'Zaviantee’s November 2026 Twitch stats.' },
-  { category:'YouTube subscribers', unit:'subscribers', answer:330, prompt:'How many YouTube subscribers did Zav have on November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026.' },
-  { category:'YouTube uploads', unit:'videos', answer:212, prompt:'How many videos had Zav uploaded by November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026. This is the channel’s displayed video count.' },
-  { category:'Twitch variety', unit:'categories', answer:47, prompt:'How many different categories has Zav streamed?', source:'The supplied list contains 49 rows. Until Dawn and Among Us appear twice.' },
+  { category:'Siege airtime', unit:'hours', answer:281, prompt:'How many hours did Zav stream Rainbow Six Siege?', source:'Zaviantee’s November 2026 Twitch stats.', sourceUrl:'https://www.twitchmetrics.net/c/1137933398-zaviantee/streams' },
+  { category:'Twitch peak', unit:'viewers', answer:141, prompt:'What’s the most people watching Zav at once in Just Chatting?', source:'Zaviantee’s November 2026 Twitch stats.', sourceUrl:'https://www.twitchmetrics.net/c/1137933398-zaviantee/streams' },
+  { category:'YouTube subscribers', unit:'subscribers', answer:330, prompt:'How many YouTube subscribers did Zav have on November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026.', sourceUrl:'https://www.youtube.com/@zavianteee' },
+  { category:'YouTube uploads', unit:'videos', answer:212, prompt:'How many videos had Zav uploaded by November 12, 2026?', source:'Zaviantee’s YouTube channel header, observed November 12, 2026. This is the channel’s displayed video count.', sourceUrl:'https://www.youtube.com/@zavianteee' },
+  { category:'Twitch variety', unit:'categories', answer:47, prompt:'How many different categories has Zav streamed?', source:'The supplied list contains 49 rows. Until Dawn and Among Us appear twice.', sourceUrl:'https://www.twitchmetrics.net/c/1137933398-zaviantee/streams' },
   { category:'Viewer leaderboard', unit:'accounts', answer:1299, prompt:'How many names were on Zav’s viewer leaderboard?', source:'The supplied leaderboard has 1,300 positions with one blank handle. Bot accounts count here.' },
   { category:'Channel age', unit:'days', answer:800, prompt:'How many days passed between Zav creating his Twitch account and November 12, 2026?', source:'TwitchTracker gives September 3, 2024 as the account creation date. The calendar difference is 800 days.' }
 ];
@@ -81,6 +81,14 @@ function reveal(index){
     '<div class="accuracy" aria-hidden="true"><i style="--accuracy:'+Math.max(4,100/difference)+'%"></i></div>'+
     '<details class="answer-source"><summary>Where this number comes from</summary><p>'+question.source+'</p></details>'+
     '<div class="actions"><button id="next">'+(guesses.length === size ? 'See results' : 'Next question')+' →</button></div></div>');
+  if(question.sourceUrl?.startsWith('https://')){
+    const link=document.createElement('a');
+    link.href=question.sourceUrl;
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    link.textContent=' View source ↗';
+    screen.querySelector('.answer-source p').append(link);
+  }
   screen.querySelector('#next').onclick = () => guesses.length === size ? results() : prompt();
 }
 function results(){

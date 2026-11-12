@@ -175,6 +175,7 @@
   {
     "category": "TWITCH · HORROR",
     "prompt": "Name a horror game Zaviantee has played.",
+    "source": "https://www.twitchmetrics.net/c/1137933398-zaviantee/streams",
     "answers": [
       "10 | The Walking Dead | Walking Dead | TWD",
       "25 | Until Dawn",
@@ -205,6 +206,7 @@
   {
     "category": "TWITCH · SPORTS",
     "prompt": "Name a sports game Zaviantee has streamed.",
+    "source": "https://www.twitchmetrics.net/c/1137933398-zaviantee/streams",
     "answers": [
       "10 | Rocket League",
       "25 | EA Sports FC 26 | FC 26",
@@ -217,6 +219,7 @@
   {
     "category": "TWITCH · MULTIPLAYER",
     "prompt": "Name a multiplayer game Zav has streamed.",
+    "source": "https://www.twitchmetrics.net/c/1137933398-zaviantee/streams",
     "answers": [
       "10 | Fortnite",
       "10 | Rainbow Six Siege | Siege | R6",
